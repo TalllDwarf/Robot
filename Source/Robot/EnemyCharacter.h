@@ -9,17 +9,27 @@
 UCLASS()
 class ROBOT_API AEnemyCharacter : public ACharacter
 {
-	GENERATED_BODY()
+	GENERATED_UCLASS_BODY()
 
 public:
 	// Sets default values for this character's properties
-	AEnemyCharacter();
+	UPROPERTY(Category = Mesh, VisibleDefaultsOnly, BlueprintReadOnly)
+	class USphereComponent* CollisionComp;
 
-protected:
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
+		UStaticMeshComponent* EnemyMesh;
+	//AEnemyCharacter();
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+	
+	
+
+	/** called when something enters the sphere component */
+
+
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -27,6 +37,15 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(EditAnywhere, Category = Behavior)
-	class UBehaviorTree *BotBehavior;
+		class UBehaviorTree *BotBehavior;
+		
+
+	UFUNCTION()
+		void OnHit(class UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 	
+
+	void takeDamage(int damage);
+
+	int health;
 };
+ 

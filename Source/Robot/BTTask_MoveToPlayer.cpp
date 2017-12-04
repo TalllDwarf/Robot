@@ -19,7 +19,8 @@ EBTNodeResult::Type UBTTask_MoveToPlayer::ExecuteTask(UBehaviorTreeComponent& Ow
 	ARobotCharacter *Enemy = Cast<ARobotCharacter>(OwnerComp.GetBlackboardComponent()->GetValue<UBlackboardKeyType_Object>(CharPC->EnemykeyID));
 	if (Enemy)
 	{
-		CharPC -> MoveToActor(Enemy, 5.f, true, true, true, 0, true);
+		CharPC -> MoveToActor(Enemy, 5.0f, true, true, true, 0, true);
+		
 		return EBTNodeResult::Succeeded;
 	}
 	else

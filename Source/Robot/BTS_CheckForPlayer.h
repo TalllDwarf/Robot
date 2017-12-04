@@ -12,7 +12,7 @@
 UCLASS()
 class ROBOT_API UBTS_CheckForPlayer : public UBTService
 {
-	GENERATED_BODY();
+	GENERATED_BODY()
 
 public:
 	

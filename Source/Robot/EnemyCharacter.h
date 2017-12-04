@@ -19,7 +19,6 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
 		UStaticMeshComponent* EnemyMesh;
-	//AEnemyCharacter();
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -41,11 +40,12 @@ public:
 		
 
 	UFUNCTION()
-		void OnHit(class UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+		void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	
-
-	void takeDamage(int damage);
-
+	UFUNCTION(BlueprintCallable)
+		void takeDamage(int damage);
+	
+	UPROPERTY(EditDefaultsOnly)
 	int health;
 };
  

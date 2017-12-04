@@ -11,15 +11,16 @@
 #include "RobotCharacter.h"
 #include "GameplayTasks.h"
 #include "Robot.h"
+#include "Player/PlayerRobot.h"
 
 EBTNodeResult::Type UBTTask_MoveToPlayer::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8*NodeMemory)
 {
 	AEnemyAI *CharPC = Cast<AEnemyAI>(OwnerComp.GetAIOwner());
 
-	ARobotCharacter *Enemy = Cast<ARobotCharacter>(OwnerComp.GetBlackboardComponent()->GetValue<UBlackboardKeyType_Object>(CharPC->EnemykeyID));
+	APlayerRobot *Enemy = Cast<APlayerRobot>(OwnerComp.GetBlackboardComponent()->GetValue<UBlackboardKeyType_Object>(CharPC->EnemykeyID));
 	if (Enemy)
 	{
-		CharPC -> MoveToActor(Enemy, 5.0f, true, true, true, 0, true);
+		CharPC -> MoveToActor(Enemy, 0.0f, true, true, true, 0, true);
 		
 		return EBTNodeResult::Succeeded;
 	}

@@ -10,6 +10,7 @@
 #include "RobotCharacter.h"
 #include "GameplayTasks.h"
 #include "Robot.h"
+#include "Player/PlayerRobot.h"
 
 
 UBTS_CheckForPlayer::UBTS_CheckForPlayer()
@@ -22,7 +23,7 @@ void UBTS_CheckForPlayer::TickNode(UBehaviorTreeComponent& OwnerComp, uint8*Node
 
 	if (EnemyPC)
 	{
-		ARobotCharacter *Enemy = Cast<ARobotCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+		APlayerRobot *Enemy = Cast<APlayerRobot>(GetWorld()->GetFirstPlayerController()->GetPawn());
 		if (Enemy)
 		{
 			OwnerComp.GetBlackboardComponent()->SetValue<UBlackboardKeyType_Object>(EnemyPC->EnemykeyID, Enemy);

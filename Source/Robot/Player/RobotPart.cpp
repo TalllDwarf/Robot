@@ -30,6 +30,10 @@ void ARobotPart::BeginPlay()
 void ARobotPart::damage(float damage)
 {
 	partHealth -= damage;
+	if (partHealth < 0)
+	{
+		Destroy();
+	}
 }
 
 // Called every frame

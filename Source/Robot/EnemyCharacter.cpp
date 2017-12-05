@@ -4,6 +4,7 @@
 #include "Robot.h"
 #include "RobotCharacter.h"
 #include "Player/PlayerRobot.h"
+#include "Player/RobotPart.h"
 #define COLLISION_ENEMY ECollisionChannel::ECC_GameTraceChannel2
 #define COLLISION_ALLY ECollisionChannel::ECC_GameTraceChannel3
 // Sets default values
@@ -45,13 +46,10 @@ void AEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 void AEnemyCharacter::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
-	if (OtherActor->IsA(APlayerRobot::StaticClass()))
+	if (OtherActor->IsA(ARobotPart::StaticClass()))
 	{
-		  
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, "Touch");
-		
+		Cast<ARobotPart>(OtherActor)->damage(50);
 		takeDamage(health);
-		
 	}
 }
 

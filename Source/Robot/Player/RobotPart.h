@@ -28,20 +28,50 @@ public:
 private:
 
 	//Health of the part
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Health, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, Category = Health, meta = (AllowPrivateAccess = "true"))
+		float maxPartHealth;
+
+	//Health of the part
 		float partHealth;
 
+	//amount of health the parts will regen
+	UPROPERTY(EditDefaultsOnly, Category = Health, meta = (AllowPrivateAccess = "true"))
+		float healthRegenAmount;
+
+	//The time it takes to regen health
+	UPROPERTY(EditDefaultsOnly, Category = Health, meta = (AllowPrivateAccess = "true"))
+		float healthRegenTime;
+
+	//Until next health regen
+	float healthRegenTimeLeft;
 
 protected:
+
+	//Is the part to damaged to work
+	bool damaged;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
 
+	//Returns the players health
+	UFUNCTION(BlueprintPure, Category = Health)
+		float getPartHealth() { return partHealth; }
+
 	//Damage part
 	UFUNCTION(BlueprintCallable, Category = Health)
-	void damage(float damage);
+		void damage(float damage);
 
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	UFUNCTION(BlueprintCallable, Category = Health)
+		void addHealth(float healthAmount);
+
+	//If the part has been fully damaged or heated they are no longer active
+	UFUNCTION(BlueprintCallable, Category = Health)
+		virtual bool isActive();
+
+	UFUNCTION(BlueprintCallable, Category = Health)
+	void Heal(float DeltaTime);
+
+	
 };

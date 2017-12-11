@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "RobotPart.h"
+#include "Math/UnrealMathUtility.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/BoxComponent.h"
-
 
 // Sets default values
 ARobotPart::ARobotPart(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
@@ -17,7 +17,9 @@ ARobotPart::ARobotPart(const FObjectInitializer& ObjectInitializer) : Super(Obje
 	RootComponent = URobotMesh;
 	//UboxCollider->SetupAttachment(RootComponent);
 
-	partHealth = 100.0f;
+	partHealth = maxPartHealth;
+
+	damaged = false;
 }
 
 // Called when the game starts or when spawned
@@ -29,15 +31,30 @@ void ARobotPart::BeginPlay()
 
 void ARobotPart::damage(float damage)
 {
-	partHealth -= damage;
-	if (partHealth < 0)
-	{
-		Destroy();
-	}
+	partHealth = FMath::Clamp((partHealth - damage), 0.0f, maxPartHealth);
 }
 
-// Called every frame
-void ARobotPart::Tick(float DeltaTime)
+void ARobotPart::addHealth(float healthAmount)
 {
-	Super::Tick(DeltaTime);
+	partHealth = FMath::Clamp((partHealth + healthAmount), 0.0f, maxPartHealth);
+}
+
+bool ARobotPart::isActive()
+{
+	return !damaged;
+}
+
+void ARobotPart::Heal(float DeltaTime)
+{
+	if (partHealth < maxPartHealth)
+	{
+			partHealth = FMath::Clamp((partHealth + (healthRegenAmount * DeltaTime)), 0.0f, maxPartHealth);
+			healthRegenTimeLeft = healthRegenTime;
+
+			if (partHealth == maxPartHealth)
+			{
+				damaged = false;
+			}
+	}
+
 }

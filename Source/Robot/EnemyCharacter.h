@@ -45,7 +45,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void takeDamage(int damage);
 	
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	int health;
+	
+	UFUNCTION(BlueprintNativeEvent)
+		void explode();
 };
  

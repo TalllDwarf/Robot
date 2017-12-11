@@ -20,7 +20,7 @@ AEnemyCharacter::AEnemyCharacter(const FObjectInitializer& ObjectInitializer)
 	CollisionComp->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 	CollisionComp->OnComponentBeginOverlap.AddDynamic(this, &AEnemyCharacter::OnOverlapBegin);
 	
-	health = 15;
+	health = 5;
 }
 
 // Called when the game starts or when spawned
@@ -58,7 +58,13 @@ void AEnemyCharacter::takeDamage(int damage)
 	health -= damage;
 	if (health <= 0)
 	{
+		explode();
 		Destroy();
 	}
 }
+
+void AEnemyCharacter::explode_Implementation()
+{
+}
+
 

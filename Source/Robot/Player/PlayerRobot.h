@@ -35,6 +35,10 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh)
 		float turnRate;
 
+	//Health of the robot
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Health)
+		float totalHealth;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

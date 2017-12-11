@@ -36,6 +36,7 @@ APlayerRobot::APlayerRobot()
 void APlayerRobot::BeginPlay()
 {
 	Super::BeginPlay();
+
 	
 }
 

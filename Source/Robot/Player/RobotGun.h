@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Player/RobotPart.h"
+#include "RobotPart.h"
 #include "RobotGun.generated.h"
 
 /**
@@ -18,6 +18,35 @@ class ROBOT_API ARobotGun : public ARobotPart
 	
 public:
 
+	UFUNCTION(BlueprintCallable, Category = Health)
+	void Cooldown(float DeltaTime);
+
+private:
+
+	bool overheated;
+
+	UFUNCTION(BlueprintPure, Category = Health)
+		float getPartHeat() { return partHeat; }
+
+	//The heat of the part
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Health, meta = (AllowPrivateAccess = "true"))
+		float partHeat;
+
+	//amount of heat the parts will regen
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Health, meta = (AllowPrivateAccess = "true"))
+		float heatRegenAmount;
+
+	//The time it takes to regen heat
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Health, meta = (AllowPrivateAccess = "true"))
+		float heatRegenTime;
 	
+	//If the part has been fully damaged or heated they are no longer active
+	UFUNCTION(BlueprintCallable, Category = Health)
+		virtual bool isActive() override;
+
+	UFUNCTION(BlueprintCallable, Category = Health)
+		void AddHeat(float heat);
+
+	float heatRegenTimeLeft;
 	
 };

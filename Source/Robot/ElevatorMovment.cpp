@@ -18,7 +18,7 @@ void AElevatorMovment::BeginPlay()
 
 	for (int i = 0; i <= 10; i++)
 	{
-
+		FTimerHandle time_handler;
 		GetWorldTimerManager().SetTimer(this,
 			&AElevatorMovment::BeginPlay,
 			true,

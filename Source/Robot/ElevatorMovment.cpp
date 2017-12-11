@@ -19,10 +19,7 @@ void AElevatorMovment::BeginPlay()
 	for (int i = 0; i <= 10; i++)
 	{
 		FTimerHandle time_handler;
-		GetWorldTimerManager().SetTimer(this,
-			&AElevatorMovment::BeginPlay,
-			true,
-			12.0f);
+		GetWorldTimerManager().SetTimer(time_handler, this, &AElevatorMovment::BeginPlay,	true, 12.0f);
 
 		FVector ActorLocation = GetActorLocation();   // Get the current location 
 		ActorLocation.Z += 50.0f;

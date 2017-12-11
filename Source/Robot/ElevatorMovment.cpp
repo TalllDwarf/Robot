@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "ElevatorMovment.h"
+#include "TimerManager.h"
 
 
 // Sets default values
@@ -14,14 +15,30 @@ AElevatorMovment::AElevatorMovment()
 // Called when the game starts or when spawned
 void AElevatorMovment::BeginPlay()
 {
+
+	for (int i = 0; i <= 10; i++)
+	{
+
+		GetWorldTimerManager().SetTimer(this,
+			&AElevatorMovment::BeginPlay,
+			true,
+			12.0f);
+
+		FVector ActorLocation = GetActorLocation();   // Get the current location 
+		ActorLocation.Z += 50.0f;
+		SetActorLocation(ActorLocation, true);    // Set the location 
+	}
+
 	Super::BeginPlay();
+
 	
 }
 
 // Called every frame
 void AElevatorMovment::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
+	
 
 }
+
 

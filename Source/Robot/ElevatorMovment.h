@@ -7,13 +7,15 @@
 #include "ElevatorMovment.generated.h"
 
 UCLASS()
-class ROBOT_API AElevatorMovment : public AActor
+class LIFTTEST_API AElevatorMovment : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
 	AElevatorMovment();
+	FVector CurrentLocation;
+	float speed;
 
 protected:
 	// Called when the game starts or when spawned
@@ -22,6 +24,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
 
 	
 	

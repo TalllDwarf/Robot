@@ -32,6 +32,10 @@ void ARobotPart::BeginPlay()
 void ARobotPart::damage(float damage)
 {
 	partHealth = FMath::Clamp((partHealth - damage), 0.0f, maxPartHealth);
+	if (partHealth <= 0)
+	{
+		Destroy();
+	}
 }
 
 void ARobotPart::addHealth(float healthAmount)
@@ -48,7 +52,7 @@ void ARobotPart::Heal(float DeltaTime)
 {
 	if (partHealth < maxPartHealth)
 	{
-			partHealth = FMath::Clamp((partHealth + (healthRegenAmount * DeltaTime)), 0.0f, maxPartHealth);
+		//	partHealth = FMath::Clamp((partHealth + (healthRegenAmount * DeltaTime)), 0.0f, maxPartHealth);
 			healthRegenTimeLeft = healthRegenTime;
 
 			if (partHealth == maxPartHealth)

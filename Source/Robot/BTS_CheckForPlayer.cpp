@@ -27,7 +27,7 @@ void UBTS_CheckForPlayer::TickNode(UBehaviorTreeComponent& OwnerComp, uint8*Node
 		if (Enemy)
 		{
 			OwnerComp.GetBlackboardComponent()->SetValue<UBlackboardKeyType_Object>(EnemyPC->EnemykeyID, Enemy);
-			GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, "Enemy Is Here!");
+			//GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, "Enemy Is Here!");
 		}
 	}
 	

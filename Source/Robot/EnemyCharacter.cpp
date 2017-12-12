@@ -48,7 +48,7 @@ void AEnemyCharacter::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActo
 {
 	if (OtherActor->IsA(ARobotPart::StaticClass()))
 	{
-		Cast<ARobotPart>(OtherActor)->damage(50);
+		Cast<ARobotPart>(OtherActor)->damage(5);
 		takeDamage(health);
 	}
 }

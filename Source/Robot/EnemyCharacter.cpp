@@ -58,6 +58,7 @@ void AEnemyCharacter::takeDamage(int damage)
 	health -= damage;
 	if (health <= 0)
 	{
+		//RobotGameMode.killedEnemy();
 		explode();
 		Destroy();
 	}

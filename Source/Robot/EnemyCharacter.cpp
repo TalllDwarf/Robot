@@ -5,6 +5,7 @@
 #include "RobotCharacter.h"
 #include "Player/PlayerRobot.h"
 #include "Player/RobotPart.h"
+#include "RobotGameMode.h"
 #define COLLISION_ENEMY ECollisionChannel::ECC_GameTraceChannel2
 #define COLLISION_ALLY ECollisionChannel::ECC_GameTraceChannel3
 // Sets default values
@@ -58,7 +59,8 @@ void AEnemyCharacter::takeDamage(int damage)
 	health -= damage;
 	if (health <= 0)
 	{
-		//RobotGameMode.killedEnemy();
+		ARobotGameMode* gm = (ARobotGameMode*)GetWorld()->GetAuthGameMode();
+		gm->killedEnemy();
 		explode();
 		Destroy();
 	}

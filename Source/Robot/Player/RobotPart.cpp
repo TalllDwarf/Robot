@@ -4,6 +4,7 @@
 #include "Math/UnrealMathUtility.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/BoxComponent.h"
+#include "Robot/Player/PlayerRobot.h"
 
 // Sets default values
 ARobotPart::ARobotPart(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
@@ -12,10 +13,8 @@ ARobotPart::ARobotPart(const FObjectInitializer& ObjectInitializer) : Super(Obje
 	PrimaryActorTick.bCanEverTick = false;
 
 	URobotMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PartMesh"));
-	//UboxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("HitBox"));
 
 	RootComponent = URobotMesh;
-	//UboxCollider->SetupAttachment(RootComponent);
 
 	partHealth = maxPartHealth;
 
@@ -27,38 +26,56 @@ void ARobotPart::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	mainBody = Cast<APlayerRobot>(GetOwner());
 }
 
+//Damage the robot part
 void ARobotPart::damage(float damage)
 {
+	//Damage part
 	partHealth = FMath::Clamp((partHealth - damage), 0.0f, maxPartHealth);
 	if (partHealth <= 0)
 	{
-		Destroy();
+		damaged = true;
 	}
+
+	//Damge main body
+	mainBody->damage(damage);
 }
 
+//Heals the robot part
 void ARobotPart::addHealth(float healthAmount)
 {
 	partHealth = FMath::Clamp((partHealth + healthAmount), 0.0f, maxPartHealth);
+	if (partHealth == maxPartHealth)
+	{
+		damaged = false;
+	}
 }
 
+//Is the part currently active
 bool ARobotPart::isActive()
 {
 	return !damaged;
 }
 
+//Slowlt heals the part every tick
 void ARobotPart::Heal(float DeltaTime)
 {
 	if (partHealth < maxPartHealth)
 	{
-		//	partHealth = FMath::Clamp((partHealth + (healthRegenAmount * DeltaTime)), 0.0f, maxPartHealth);
-			healthRegenTimeLeft = healthRegenTime;
+		if (damaged)
+		{
+			partHealth = FMath::Clamp((partHealth + ((healthRegenAmount * 2) * DeltaTime)), 0.0f, maxPartHealth);
+		}
+		else
+		{
+			partHealth = FMath::Clamp((partHealth + (healthRegenAmount * DeltaTime)), 0.0f, maxPartHealth);
+		}		
 
 			if (partHealth == maxPartHealth)
 			{
 				damaged = false;
 			}
 	}
-
 }

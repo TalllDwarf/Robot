@@ -11,10 +11,6 @@ class ROBOT_API ARobotPart : public AActor
 {
 	GENERATED_BODY()
 
-	//Box collider
-	//UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAccess = "true"))
-	//	class UBoxComponent* UboxCollider;
-
 	//Head we have connected
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* URobotMesh;
@@ -32,6 +28,7 @@ private:
 		float maxPartHealth;
 
 	//Health of the part
+	UPROPERTY(EditDefaultsOnly, Category = Health, meta = (AllowPrivateAccess = "true"))
 		float partHealth;
 
 	//amount of health the parts will regen
@@ -44,6 +41,8 @@ private:
 
 	//Until next health regen
 	float healthRegenTimeLeft;
+
+	class APlayerRobot* mainBody;
 
 protected:
 

@@ -23,6 +23,8 @@ public:
 
 private:
 
+	//is the gun currently overheated
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Health, meta = (AllowPrivateAccess = "true"))
 	bool overheated;
 
 	UFUNCTION(BlueprintPure, Category = Health)
@@ -46,7 +48,5 @@ private:
 
 	UFUNCTION(BlueprintCallable, Category = Health)
 		void AddHeat(float heat);
-
-	float heatRegenTimeLeft;
 	
 };

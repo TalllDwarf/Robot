@@ -8,15 +8,22 @@ ARobotGun::ARobotGun(const FObjectInitializer & ObjectInitializer) : Super(Objec
 	partHeat = 0.0f;
 	heatRegenAmount = 2.0f;
 	heatRegenTime = 0.6f;
-	heatRegenTimeLeft = heatRegenTime;
 }
 
+//Cools the gun a little every tick
+//Speed can be changed using heatRegenAmount and heatRegenTime
 void ARobotGun::Cooldown(float DeltaTime)
 {
 	if (partHeat > 0.0f)
 	{
+		if (overheated)
+		{
+			partHeat = FMath::Clamp((partHeat - ((heatRegenAmount * 2) * DeltaTime)), 0.0f, 100.0f);
+		}
+		else
+		{
 			partHeat = FMath::Clamp((partHeat - (heatRegenAmount * DeltaTime)), 0.0f, 100.0f);
-			heatRegenTimeLeft = heatRegenTime;
+		}
 
 			if (partHeat == 0.0f)
 			{
@@ -25,11 +32,14 @@ void ARobotGun::Cooldown(float DeltaTime)
 	}
 }
 
+//Checks if the gun can be used
 bool ARobotGun::isActive()
 {
 	return (!overheated && !damaged);
 }
 
+//Add heat to the weapon
+//overheating will stop the weapon 
 void ARobotGun::AddHeat(float heat)
 {
 	partHeat = FMath::Clamp((partHeat + heat), 0.0f, 100.0f);

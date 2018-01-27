@@ -7,6 +7,9 @@
 #include "Player/RobotPart.h"
 #define COLLISION_ENEMY ECollisionChannel::ECC_GameTraceChannel2
 #define COLLISION_ALLY ECollisionChannel::ECC_GameTraceChannel3
+#define COLLISION_ARMS ECollisionChannel::ECC_GameTraceChannel3
+#define COLLISION_LEGS ECollisionChannel::ECC_GameTraceChannel3
+#define COLLISION_HEAD ECollisionChannel::ECC_GameTraceChannel3
 // Sets default values
 AEnemyCharacter::AEnemyCharacter(const FObjectInitializer& ObjectInitializer)
 :Super(ObjectInitializer)
@@ -48,7 +51,7 @@ void AEnemyCharacter::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActo
 {
 	if (OtherActor->IsA(ARobotPart::StaticClass()))
 	{
-		Cast<ARobotPart>(OtherActor)->damage(5);
+		Cast<ARobotPart>(OtherActor)->damage(10);
 		takeDamage(health);
 	}
 }

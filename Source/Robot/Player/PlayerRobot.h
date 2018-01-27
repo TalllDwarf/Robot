@@ -39,6 +39,17 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Health)
 		float totalHealth;
 
+	//Health of the robot
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Health)
+		float healthRemaining;
+
+	//Damage the robot
+	UFUNCTION(BlueprintCallable, Category = Health)
+		void damage(float damage);
+
+	UFUNCTION(BlueprintCallable, Category = Health)
+		void heal(float healthAmount);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -32,6 +32,26 @@ APlayerRobot::APlayerRobot()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
+//Damages the player robot when health is 0 player dies
+void APlayerRobot::damage(float damage)
+{
+	healthRemaining = FMath::Clamp((healthRemaining - damage), 0.0f, totalHealth);
+	if (healthRemaining <= 0)
+	{
+		//
+		//TODO: Player has been killed
+		//
+		//Lose state
+		//
+	}
+}
+
+//Health the players robot
+void APlayerRobot::heal(float healthAmount)
+{
+	healthRemaining = FMath::Clamp((healthRemaining + healthAmount), 0.0f, totalHealth);
+}
+
 // Called when the game starts or when spawned
 void APlayerRobot::BeginPlay()
 {

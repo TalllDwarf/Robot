@@ -13,6 +13,17 @@ class ARobotGameMode : public AGameModeBase
 
 public:
 	ARobotGameMode();
+	UFUNCTION(BlueprintCallable)
+		int getKills();
+	UFUNCTION(BlueprintCallable)
+		int getState();
+	UFUNCTION(BlueprintCallable)
+		void changeState(int newState);
+	UFUNCTION(BlueprintCallable)
+		void killedEnemy();
+private:
+	int currentState;
+	int killCount;
 };
 
 

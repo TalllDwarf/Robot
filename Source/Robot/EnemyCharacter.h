@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "EnemyCharacter.generated.h"
 
+
 UCLASS()
 class ROBOT_API AEnemyCharacter : public ACharacter
 {
@@ -50,5 +51,12 @@ public:
 	
 	UFUNCTION(BlueprintNativeEvent)
 		void explode();
+
+
+
+	
+
+
+	
 };
  

@@ -15,12 +15,13 @@
 
 EBTNodeResult::Type UBTTask_MoveToPlayer::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8*NodeMemory)
 {
+	pathfinding = true;
 	AEnemyAI *CharPC = Cast<AEnemyAI>(OwnerComp.GetAIOwner());
 
 	APlayerRobot *Enemy = Cast<APlayerRobot>(OwnerComp.GetBlackboardComponent()->GetValue<UBlackboardKeyType_Object>(CharPC->EnemykeyID));
 	if (Enemy)
 	{
-		CharPC -> MoveToActor(Enemy, 0.0f, true, true, true, 0, true);
+		CharPC -> MoveToActor(Enemy, 0.0f, true, pathfinding, false, 0, true);
 		
 		return EBTNodeResult::Succeeded;
 	}
@@ -30,5 +31,12 @@ EBTNodeResult::Type UBTTask_MoveToPlayer::ExecuteTask(UBehaviorTreeComponent& Ow
 	}
 	EBTNodeResult::Failed;
 }
+
+
+
+
+
+
+
 
 

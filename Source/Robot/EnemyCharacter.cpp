@@ -6,6 +6,7 @@
 #include "Player/PlayerRobot.h"
 #include "Player/RobotPart.h"
 #include "RobotGameMode.h"
+#include "BTTask_MoveToPlayer.h"
 #define COLLISION_ENEMY ECollisionChannel::ECC_GameTraceChannel2
 #define COLLISION_ALLY ECollisionChannel::ECC_GameTraceChannel3
 #define COLLISION_ARMS ECollisionChannel::ECC_GameTraceChannel3
@@ -24,6 +25,8 @@ AEnemyCharacter::AEnemyCharacter(const FObjectInitializer& ObjectInitializer)
 	CollisionComp->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 	CollisionComp->OnComponentBeginOverlap.AddDynamic(this, &AEnemyCharacter::OnOverlapBegin);
 	
+	
+
 	health = 5;
 }
 

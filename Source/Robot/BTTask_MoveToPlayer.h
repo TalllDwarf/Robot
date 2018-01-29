@@ -10,13 +10,19 @@
  * 
  */
 UCLASS()
+
+
 class ROBOT_API UBTTask_MoveToPlayer : public UBTTask_BlackboardBase
 {
 	GENERATED_BODY()
+		
 	
 public:
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool pathfinding;
+
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
-	
-	
-	
+
+
 };

@@ -18,7 +18,7 @@ ARobotPart::ARobotPart(const FObjectInitializer& ObjectInitializer) : Super(Obje
 
 	partHealth = maxPartHealth;
 
-	damaged = false;
+	setDamaged(false);
 }
 
 // Called when the game starts or when spawned
@@ -29,6 +29,11 @@ void ARobotPart::BeginPlay()
 	mainBody = Cast<APlayerRobot>(GetOwner());
 }
 
+void ARobotPart::setDamaged(bool isDamaged)
+{
+	damaged = isDamaged;
+}
+
 //Damage the robot part
 void ARobotPart::damage(float damage)
 {
@@ -36,7 +41,7 @@ void ARobotPart::damage(float damage)
 	partHealth = FMath::Clamp((partHealth - damage), 0.0f, maxPartHealth);
 	if (partHealth <= 0)
 	{
-		damaged = true;
+		setDamaged(true);
 	}
 
 	//Damge main body
@@ -49,7 +54,7 @@ void ARobotPart::addHealth(float healthAmount)
 	partHealth = FMath::Clamp((partHealth + healthAmount), 0.0f, maxPartHealth);
 	if (partHealth == maxPartHealth)
 	{
-		damaged = false;
+		setDamaged(false);
 	}
 }
 
@@ -75,7 +80,7 @@ void ARobotPart::Heal(float DeltaTime)
 
 			if (partHealth == maxPartHealth)
 			{
-				damaged = false;
+				setDamaged(false);
 			}
 	}
 }

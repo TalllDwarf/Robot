@@ -24,7 +24,7 @@ public:
 
 private:
 	//Variables
-	USphereComponent overlapSphere;
+//	USphereComponent overlapSphere;
 	
 	
 };

@@ -11,11 +11,11 @@ ARobotGun::ARobotGun(const FObjectInitializer & ObjectInitializer) : Super(Objec
 	heatRegenAmount = 2.0f;
 	heatRegenTime = 0.6f;
 
-	const ConstructorHelpers::FObjectFinder<UCurveFloat> curve(TEXT("/Game/Test/GunActiveAnimationCurve"));
+	/*const ConstructorHelpers::FObjectFinder<UCurveFloat> curve(TEXT("/Game/Test/GunActiveAnimationCurve"));
 	check(curve.Succeeded());
 
 	floatCurve = curve.Object;
-	gunDisabledTimeLine = CreateDefaultSubobject<UTimelineComponent>(TEXT("GunActiveAnitmaionTimeline"));
+	gunDisabledTimeLine = CreateDefaultSubobject<UTimelineComponent>(TEXT("GunActiveAnitmaionTimeline"));*/
 }
 
 //Cools the gun a little every tick
@@ -36,20 +36,21 @@ void ARobotGun::Cooldown(float DeltaTime)
 			if (partHeat == 0.0f)
 			{
 				overheated = false;
-				gunDisabledTimeLine->Reverse();
+				//gunDisabledTimeLine->Reverse();
 			}
 	}
 }
 
 void ARobotGun::BeginPlay()
 {
-	//mainSpringArm = mainBody->FindComponentByClass(TSubclassOf<USpringArmComponent>);
+	Super::BeginPlay();
+	/*mainSpringArm = mainBody->FindComponentByClass(TSubclassOf<USpringArmComponent>);
 
 	FOnTimelineFloat callback{};
 	callback.BindUFunction(this, FName{ TEXT("gunActiveTimelineCallback") });
 
 	//Add the float curve to the timeline and connect to the timelines interpolation
-	gunDisabledTimeLine->AddInterpFloat(floatCurve, callback, FName{ TEXT("gunActiveAnimation") });
+	gunDisabledTimeLine->AddInterpFloat(floatCurve, callback, FName{ TEXT("gunActiveAnimation") });*/
 }
 
 void ARobotGun::gunActiveTimelineCallback(float value)
@@ -79,26 +80,26 @@ void ARobotGun::AddHeat(float heat)
 void ARobotGun::IsOverheating(bool overheating)
 {
 	overheated = overheating;
-	if (overheating)
+	/*if (overheating)
 	{
 		gunDisabledTimeLine->Play();
 	}
 	else
 	{
 		gunDisabledTimeLine->Reverse();
-	}
+	}*/
 }
 
 void ARobotGun::setDamaged(bool isDamaged)
 {
 	Super::setDamaged(isDamaged);
 
-	if (isDamaged)
+	/*if (isDamaged)
 	{
 		gunDisabledTimeLine->Play();
 	}
 	else
 	{
 		gunDisabledTimeLine->Reverse();
-	}
+	}*/
 }

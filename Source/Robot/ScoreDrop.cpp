@@ -15,7 +15,7 @@ AScoreDrop::AScoreDrop()
 void AScoreDrop::BeginPlay()
 {
 	Super::BeginPlay();
-	MyActor->SetActorEnableCollision(false);
+	//MyActor->SetActorEnableCollision(false);
 
 }
 

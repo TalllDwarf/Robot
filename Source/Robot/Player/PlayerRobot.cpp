@@ -8,6 +8,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "RobotGameMode.h"
 
 // Sets default values
 APlayerRobot::APlayerRobot()
@@ -38,11 +39,8 @@ void APlayerRobot::damage(float damage)
 	healthRemaining = FMath::Clamp((healthRemaining - damage), 0.0f, totalHealth);
 	if (healthRemaining <= 0)
 	{
-		//
-		//TODO: Player has been killed
-		//
-		//Lose state
-		//
+		ARobotGameMode* gm = (ARobotGameMode*)GetWorld()->GetAuthGameMode();
+		gm->changeState(-1);
 	}
 }
 

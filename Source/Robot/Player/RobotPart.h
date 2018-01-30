@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Player/PlayerRobot.h"
 #include "GameFramework/Actor.h"
 #include "RobotPart.generated.h"
 
@@ -42,15 +43,19 @@ private:
 	//Until next health regen
 	float healthRegenTimeLeft;
 
-	class APlayerRobot* mainBody;
-
-protected:
-
 	//Is the part to damaged to work
 	bool damaged;
 
+protected:
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	//changes the damage state of the part
+	virtual void setDamaged(bool isDamaged);
+
+	//The main body parent for the part
+	class APlayerRobot* mainBody;
 
 public:	
 

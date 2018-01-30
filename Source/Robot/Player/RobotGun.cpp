@@ -1,13 +1,21 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "RobotGun.h"
+#include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
 
 ARobotGun::ARobotGun(const FObjectInitializer & ObjectInitializer) : Super(ObjectInitializer)
 {
 	overheated = false;
 	partHeat = 0.0f;
+	overheatMultiplier = 3.0f;
 	heatRegenAmount = 2.0f;
 	heatRegenTime = 0.6f;
+
+	const ConstructorHelpers::FObjectFinder<UCurveFloat> curve(TEXT("/Game/Test/GunActiveAnimationCurve"));
+	check(curve.Succeeded());
+
+	floatCurve = curve.Object;
+	gunDisabledTimeLine = CreateDefaultSubobject<UTimelineComponent>(TEXT("GunActiveAnitmaionTimeline"));
 }
 
 //Cools the gun a little every tick
@@ -18,7 +26,7 @@ void ARobotGun::Cooldown(float DeltaTime)
 	{
 		if (overheated)
 		{
-			partHeat = FMath::Clamp((partHeat - ((heatRegenAmount * 2) * DeltaTime)), 0.0f, 100.0f);
+			partHeat = FMath::Clamp((partHeat - ((heatRegenAmount * overheatMultiplier) * DeltaTime)), 0.0f, 100.0f);
 		}
 		else
 		{
@@ -28,14 +36,32 @@ void ARobotGun::Cooldown(float DeltaTime)
 			if (partHeat == 0.0f)
 			{
 				overheated = false;
+				gunDisabledTimeLine->Reverse();
 			}
 	}
+}
+
+void ARobotGun::BeginPlay()
+{
+	//mainSpringArm = mainBody->FindComponentByClass(TSubclassOf<USpringArmComponent>);
+
+	FOnTimelineFloat callback{};
+	callback.BindUFunction(this, FName{ TEXT("gunActiveTimelineCallback") });
+
+	//Add the float curve to the timeline and connect to the timelines interpolation
+	gunDisabledTimeLine->AddInterpFloat(floatCurve, callback, FName{ TEXT("gunActiveAnimation") });
+}
+
+void ARobotGun::gunActiveTimelineCallback(float value)
+{
+	
 }
 
 //Checks if the gun can be used
 bool ARobotGun::isActive()
 {
-	return (!overheated && !damaged);
+	bool damaged = Super::isActive();
+	return (!overheated && damaged);
 }
 
 //Add heat to the weapon
@@ -46,6 +72,33 @@ void ARobotGun::AddHeat(float heat)
 
 	if (partHeat == 100.0f)
 	{
-		overheated = true;
+		IsOverheating(true);
+	}
+}
+
+void ARobotGun::IsOverheating(bool overheating)
+{
+	overheated = overheating;
+	if (overheating)
+	{
+		gunDisabledTimeLine->Play();
+	}
+	else
+	{
+		gunDisabledTimeLine->Reverse();
+	}
+}
+
+void ARobotGun::setDamaged(bool isDamaged)
+{
+	Super::setDamaged(isDamaged);
+
+	if (isDamaged)
+	{
+		gunDisabledTimeLine->Play();
+	}
+	else
+	{
+		gunDisabledTimeLine->Reverse();
 	}
 }

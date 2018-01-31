@@ -52,6 +52,10 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 		void explode();
 
+	UFUNCTION(BlueprintNativeEvent)
+		void ragdoll();
+
+
 
 
 	

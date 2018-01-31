@@ -57,6 +57,7 @@ void AEnemyCharacter::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActo
 	{
 		Cast<ARobotPart>(OtherActor)->damage(10);
 		takeDamage(health);
+		explode();
 	}
 }
 
@@ -67,9 +68,13 @@ void AEnemyCharacter::takeDamage(int damage)
 	{
 		ARobotGameMode* gm = (ARobotGameMode*)GetWorld()->GetAuthGameMode();
 		gm->killedEnemy();
-		explode();
-		Destroy();
+		ragdoll();
 	}
+}
+
+
+void AEnemyCharacter::ragdoll_Implementation()
+{
 }
 
 void AEnemyCharacter::explode_Implementation()

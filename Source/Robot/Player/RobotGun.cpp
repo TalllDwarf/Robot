@@ -11,11 +11,13 @@ ARobotGun::ARobotGun(const FObjectInitializer & ObjectInitializer) : Super(Objec
 	heatRegenAmount = 2.0f;
 	heatRegenTime = 0.6f;
 
+	
 	const ConstructorHelpers::FObjectFinder<UCurveFloat> curve(TEXT("/Game/Test/GunActiveAnimationCurve"));
 	check(curve.Succeeded());
 
 	floatCurve = curve.Object;
 	gunDisabledTimeLine = CreateDefaultSubobject<UTimelineComponent>(TEXT("GunActiveAnitmaionTimeline"));
+	
 }
 
 //Cools the gun a little every tick
@@ -43,6 +45,7 @@ void ARobotGun::Cooldown(float DeltaTime)
 
 void ARobotGun::BeginPlay()
 {
+	Super::BeginPlay();
 	//mainSpringArm = mainBody->FindComponentByClass(TSubclassOf<USpringArmComponent>);
 
 	FOnTimelineFloat callback{};

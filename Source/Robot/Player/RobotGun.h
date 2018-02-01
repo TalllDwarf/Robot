@@ -78,7 +78,7 @@ private:
 	virtual void setDamaged(bool isDamaged) override;
 
 
-
+	
 	//Rotation of the guns when attacking
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GunRotation, meta = (AllowPrivateAccess = "true"))
 		FQuat attackRotation;
@@ -88,5 +88,6 @@ private:
 		FQuat damagedRotation;
 
 	USpringArmComponent* mainSpringArm;
+	
 	
 };

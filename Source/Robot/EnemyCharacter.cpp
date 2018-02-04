@@ -25,9 +25,10 @@ AEnemyCharacter::AEnemyCharacter(const FObjectInitializer& ObjectInitializer)
 	CollisionComp->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 	CollisionComp->OnComponentBeginOverlap.AddDynamic(this, &AEnemyCharacter::OnOverlapBegin);
 	
+
 	
 
-	health = 5;
+	health = 10;
 }
 
 // Called when the game starts or when spawned
@@ -56,22 +57,28 @@ void AEnemyCharacter::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActo
 	if (OtherActor->IsA(ARobotPart::StaticClass()))
 	{
 		Cast<ARobotPart>(OtherActor)->damage(10);
-		takeDamage(health);
-		explode();
+		//takeDamage(health);
+		health = -1;
+		ragdoll();
 	}
 }
 
 void AEnemyCharacter::takeDamage(int damage)
 {
 	health -= damage;
+	
+	GetCapsuleComponent()-> SetWorldLocation(GetTargetLocation()  + GetActorForwardVector()*-100);
+
+
+
 	if (health <= 0)
 	{
 		ARobotGameMode* gm = (ARobotGameMode*)GetWorld()->GetAuthGameMode();
 		gm->killedEnemy();
-		ragdoll();
+		explode();
+		
 	}
 }
-
 
 void AEnemyCharacter::ragdoll_Implementation()
 {
@@ -80,5 +87,7 @@ void AEnemyCharacter::ragdoll_Implementation()
 void AEnemyCharacter::explode_Implementation()
 {
 }
+
+
 
 

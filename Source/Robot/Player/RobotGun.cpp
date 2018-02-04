@@ -7,16 +7,14 @@
 
 ARobotGun::ARobotGun(const FObjectInitializer & ObjectInitializer) : Super(ObjectInitializer)
 {
+	PrimaryActorTick.bCanEverTick = true;
+
 	overheated = false;
 	partHeat = 0.0f;
 	overheatMultiplier = 3.0f;
 	heatRegenAmount = 2.0f;
 	heatRegenTime = 0.6f;
-	
-	const ConstructorHelpers::FObjectFinder<UCurveFloat> curve(TEXT("/Game/Test/GunActiveAnimationCurve"));
-	check(curve.Succeeded());
 
-	floatCurve = curve.Object;
 	gunDisabledTimeLine = CreateDefaultSubobject<UTimelineComponent>(TEXT("GunActiveAnitmaionTimeline"));
 	
 }
@@ -53,26 +51,31 @@ void ARobotGun::BeginPlay()
 
 	//Add the float curve to the timeline and connect to the timelines interpolation
 	gunDisabledTimeLine->AddInterpFloat(floatCurve, callback, FName{ TEXT("gunActiveAnimation") });
-
 	
 	mainSpringArm = Cast<USpringArmComponent>(mainBody->GetComponentByClass(USpringArmComponent::StaticClass()));
+
 }
 
+//makes the guns aim down when they have overheated or are damaged
 void ARobotGun::gunActiveTimelineCallback(float value)
 {
+	//get the pitch we need
 	float pitch = FMath::LerpStable(mainSpringArm->GetComponentRotation().Pitch, -80.0f, value);
 	
 	FRotator rotation = GetActorRotation();
 	rotation.Pitch = pitch;
+
+	SetActorRotation(rotation);
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Timeline")));
 }
 
 void ARobotGun::updateRotation()
 {
-
 	if (!gunDisabledTimeLine->IsPlaying())
 	{
 		FRotator rotation = GetActorRotation();
 		rotation.Pitch = mainSpringArm->GetComponentRotation().Pitch;
+		SetActorRotation(rotation);
 	}
 }
 

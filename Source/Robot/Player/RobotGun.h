@@ -6,6 +6,7 @@
 #include "RobotPart.h"
 #include "Components/TimelineComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Curves/CurveFloat.h"
 #include "RobotGun.generated.h"
 
 /**
@@ -81,16 +82,7 @@ private:
 	// used to start gun animations
 	virtual void setDamaged(bool isDamaged) override;
 
-
-	
-	//Rotation of the guns when attacking
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GunRotation, meta = (AllowPrivateAccess = "true"))
-		FQuat attackRotation;
-
-	//The time it takes to regen heat
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GunRotation, meta = (AllowPrivateAccess = "true"))
-		FQuat damagedRotation;
-
+	//Spring arm of the camera
 	USpringArmComponent* mainSpringArm;
 	
 	

@@ -6,7 +6,6 @@
 #include "RobotPart.h"
 #include "Components/TimelineComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "Curves/CurveFloat.h"
 #include "RobotGun.generated.h"
 
 /**

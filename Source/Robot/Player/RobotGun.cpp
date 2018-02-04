@@ -7,8 +7,6 @@
 
 ARobotGun::ARobotGun(const FObjectInitializer & ObjectInitializer) : Super(ObjectInitializer)
 {
-	PrimaryActorTick.bCanEverTick = true;
-
 	overheated = false;
 	partHeat = 0.0f;
 	overheatMultiplier = 3.0f;
@@ -66,7 +64,6 @@ void ARobotGun::gunActiveTimelineCallback(float value)
 	rotation.Pitch = pitch;
 
 	SetActorRotation(rotation);
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Timeline")));
 }
 
 void ARobotGun::updateRotation()

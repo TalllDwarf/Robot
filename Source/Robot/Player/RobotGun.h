@@ -39,6 +39,10 @@ private:
 	//Timeline tick call
 	void gunActiveTimelineCallback(float value);
 
+	//update the rotation to the rotation of the spring arm
+	UFUNCTION(BlueprintCallable)
+	void updateRotation();
+
 	//is the gun currently overheated
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Heat, meta = (AllowPrivateAccess = "true"))
 	bool overheated;

@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "RobotGun.h"
+#include "Player/PlayerRobot.h"
+#include "Engine.h"
 #include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
 
 ARobotGun::ARobotGun(const FObjectInitializer & ObjectInitializer) : Super(ObjectInitializer)
@@ -10,7 +12,6 @@ ARobotGun::ARobotGun(const FObjectInitializer & ObjectInitializer) : Super(Objec
 	overheatMultiplier = 3.0f;
 	heatRegenAmount = 2.0f;
 	heatRegenTime = 0.6f;
-
 	
 	const ConstructorHelpers::FObjectFinder<UCurveFloat> curve(TEXT("/Game/Test/GunActiveAnimationCurve"));
 	check(curve.Succeeded());
@@ -46,18 +47,33 @@ void ARobotGun::Cooldown(float DeltaTime)
 void ARobotGun::BeginPlay()
 {
 	Super::BeginPlay();
-	//mainSpringArm = mainBody->FindComponentByClass(TSubclassOf<USpringArmComponent>);
 
 	FOnTimelineFloat callback{};
 	callback.BindUFunction(this, FName{ TEXT("gunActiveTimelineCallback") });
 
 	//Add the float curve to the timeline and connect to the timelines interpolation
 	gunDisabledTimeLine->AddInterpFloat(floatCurve, callback, FName{ TEXT("gunActiveAnimation") });
+
+	
+	mainSpringArm = Cast<USpringArmComponent>(mainBody->GetComponentByClass(USpringArmComponent::StaticClass()));
 }
 
 void ARobotGun::gunActiveTimelineCallback(float value)
 {
+	float pitch = FMath::LerpStable(mainSpringArm->GetComponentRotation().Pitch, -80.0f, value);
 	
+	FRotator rotation = GetActorRotation();
+	rotation.Pitch = pitch;
+}
+
+void ARobotGun::updateRotation()
+{
+
+	if (!gunDisabledTimeLine->IsPlaying())
+	{
+		FRotator rotation = GetActorRotation();
+		rotation.Pitch = mainSpringArm->GetComponentRotation().Pitch;
+	}
 }
 
 //Checks if the gun can be used

@@ -34,16 +34,9 @@ protected:
 
 private:
 
-	//Timeline tick call
-	UFUNCTION()
-		void gunActiveTimelineCallback(float value);
-
-	//The timeline to rotate the gun when it is disabled
-
-	FTimeline gunDisabledTimeLine;
-
-	//animation alpha curve
-	UCurveFloat* floatCurve;
+	//The current position of the gun
+	//0 = faced up and ready 1 = down and damaged
+	float damagedAnimationAlpha;
 
 	//update the rotation to the rotation of the spring arm
 	UFUNCTION(BlueprintCallable)
@@ -102,10 +95,6 @@ private:
 	
 	//Is the gun overheating
 	virtual void IsOverheating(bool overheating);
-
-	//Override set damage of robot part
-	// used to start gun animations
-	virtual void setDamaged(bool isDamaged) override;
 
 	//Spring arm of the camera
 	USpringArmComponent* mainSpringArm;

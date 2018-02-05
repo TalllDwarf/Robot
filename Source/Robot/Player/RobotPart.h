@@ -79,6 +79,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Health)
 		void addHealth(float healthAmount);
 
+	UFUNCTION(BlueprintCallable, Category = Health)
+		void addHealTime(float Time);
+
 	//If the part has been fully damaged or heated they are no longer active
 	UFUNCTION(BlueprintCallable, Category = Health)
 		virtual bool isActive();

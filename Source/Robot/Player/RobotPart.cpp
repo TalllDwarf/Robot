@@ -69,6 +69,11 @@ void ARobotPart::addHealth(float healthAmount)
 	}
 }
 
+void ARobotPart::addHealTime(float Time)
+{
+	healingTime += Time;
+}
+
 //Is the part currently active
 bool ARobotPart::isActive()
 {
@@ -78,20 +83,25 @@ bool ARobotPart::isActive()
 //Slowlt heals the part every tick
 void ARobotPart::Heal(float DeltaTime)
 {
-	if (partHealth < maxPartHealth)
+	if (healingTime > 0.0f)
 	{
-		if (damaged)
+		if (partHealth < maxPartHealth)
 		{
-			partHealth = FMath::Clamp((partHealth + ((healthRegenAmount * healingMultiplier) * DeltaTime)), 0.0f, maxPartHealth);
-		}
-		else
-		{
-			partHealth = FMath::Clamp((partHealth + (healthRegenAmount * DeltaTime)), 0.0f, maxPartHealth);
-		}		
+			if (damaged)
+			{
+				partHealth = FMath::Clamp((partHealth + ((healthRegenAmount * healingMultiplier) * DeltaTime)), 0.0f, maxPartHealth);
+			}
+			else
+			{
+				partHealth = FMath::Clamp((partHealth + (healthRegenAmount * DeltaTime)), 0.0f, maxPartHealth);
+			}
 
 			if (partHealth == maxPartHealth)
 			{
 				setDamaged(false);
 			}
+		}
+
+		healingTime -= DeltaTime;
 	}
 }

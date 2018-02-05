@@ -35,9 +35,9 @@ void ARobotGameMode::killedEnemy()
 {
 	
 	killCount++;
-	if (killCount > 25)
+	if (killCount >= 25)
 	{
-		currentState = 1;
+		currentState = 2;
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Hello")));
 	}
 }

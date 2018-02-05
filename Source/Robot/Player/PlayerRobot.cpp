@@ -37,7 +37,7 @@ APlayerRobot::APlayerRobot()
 void APlayerRobot::damage(float damage)
 {
 	healthRemaining = FMath::Clamp((healthRemaining - damage), 0.0f, totalHealth);
-	if (healthRemaining <= 0)
+	if (healthRemaining == 0.0f)
 	{
 		ARobotGameMode* gm = (ARobotGameMode*)GetWorld()->GetAuthGameMode();
 		gm->changeState(-1);

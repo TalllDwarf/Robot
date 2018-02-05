@@ -9,14 +9,19 @@
 // Sets default values
 ARobotPart::ARobotPart(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
+	maxPartHealth = 100.0f;
+	partHealth = 100.0f;
+	healthRegenAmount = 10.0f;
+	healthRegenTime = 1.0f;
+	healingTime = 0.0f;
+	healingMultiplier = 2.0f;
+	healthRegenTimeLeft = 0.0f;
+
 	URobotMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PartMesh"));
-
 	RootComponent = URobotMesh;
-
-	partHealth = maxPartHealth;
 
 	setDamaged(false);
 }
@@ -27,6 +32,12 @@ void ARobotPart::BeginPlay()
 	Super::BeginPlay();
 	
 	mainBody = Cast<APlayerRobot>(GetOwner());
+}
+
+void ARobotPart::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	Heal(DeltaTime);
 }
 
 void ARobotPart::setDamaged(bool isDamaged)
@@ -71,7 +82,7 @@ void ARobotPart::Heal(float DeltaTime)
 	{
 		if (damaged)
 		{
-			partHealth = FMath::Clamp((partHealth + ((healthRegenAmount * 2) * DeltaTime)), 0.0f, maxPartHealth);
+			partHealth = FMath::Clamp((partHealth + ((healthRegenAmount * healingMultiplier) * DeltaTime)), 0.0f, maxPartHealth);
 		}
 		else
 		{

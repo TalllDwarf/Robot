@@ -23,25 +23,47 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Health)
 	void Cooldown(float DeltaTime);
 
+	//initiate on begin play
+	virtual void BeginPlay() override;
+
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
 protected:
 
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 
 private:
 
+	//Timeline tick call
+	UFUNCTION()
+		void gunActiveTimelineCallback(float value);
+
 	//The timeline to rotate the gun when it is disabled
-	UTimelineComponent* gunDisabledTimeLine;
+
+	FTimeline gunDisabledTimeLine;
 
 	//animation alpha curve
 	UCurveFloat* floatCurve;
 
-	//Timeline tick call
-	void gunActiveTimelineCallback(float value);
-
 	//update the rotation to the rotation of the spring arm
 	UFUNCTION(BlueprintCallable)
 	void updateRotation();
+
+	//
+	//Gun kick back
+	//
+
+	//The amount the gun can kickback
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAccess = "true"))
+		float kickbackAmount;
+
+	//Called when shooting to add kickback the gun
+	UFUNCTION(BlueprintCallable, Category = Mesh)
+		void Kickback();
+
+	//
+	//Heat
+	//
 
 	//is the gun currently overheated
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Heat, meta = (AllowPrivateAccess = "true"))
@@ -67,12 +89,16 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Heat, meta = (AllowPrivateAccess = "true"))
 		float heatRegenTime;
 	
-	//If the part has been fully damaged or heated they are no longer active
-	UFUNCTION(BlueprintCallable, Category = Health)
-		virtual bool isActive() override;
-
 	UFUNCTION(BlueprintCallable, Category = Heat)
 		void AddHeat(float heat);
+
+	//
+	//End Heat
+	//
+
+	//If the part has been fully damaged or heated they are no longer active
+	UFUNCTION(BlueprintCallable, Category = Health)
+		virtual bool isActive() override;	
 	
 	//Is the gun overheating
 	virtual void IsOverheating(bool overheating);

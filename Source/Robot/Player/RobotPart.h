@@ -24,11 +24,11 @@ public:
 
 private:
 
-	//Health of the part
+	//Max health of the part
 	UPROPERTY(EditDefaultsOnly, Category = Health, meta = (AllowPrivateAccess = "true"))
 		float maxPartHealth;
 
-	//Health of the part
+	//current health of the part
 	UPROPERTY(EditDefaultsOnly, Category = Health, meta = (AllowPrivateAccess = "true"))
 		float partHealth;
 
@@ -40,6 +40,12 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = Health, meta = (AllowPrivateAccess = "true"))
 		float healthRegenTime;
 
+	UPROPERTY(EditDefaultsOnly, Category = Health, meta = (AllowPrivateAccess = "true"))
+		float healingMultiplier;
+
+	//The amount of healing time the part has
+	float healingTime;
+
 	//Until next health regen
 	float healthRegenTimeLeft;
 
@@ -50,6 +56,9 @@ protected:
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 
 	//changes the damage state of the part
 	virtual void setDamaged(bool isDamaged);
@@ -75,7 +84,5 @@ public:
 		virtual bool isActive();
 
 	UFUNCTION(BlueprintCallable, Category = Health)
-	void Heal(float DeltaTime);
-
-	
+	void Heal(float DeltaTime);	
 };

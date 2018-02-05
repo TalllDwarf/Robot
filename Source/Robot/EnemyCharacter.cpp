@@ -63,6 +63,7 @@ void AEnemyCharacter::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActo
 void AEnemyCharacter::takeDamage(int damage)
 {
 	health -= damage;
+
 	if (health <= 0)
 	{
 		ARobotGameMode* gm = (ARobotGameMode*)GetWorld()->GetAuthGameMode();

@@ -67,7 +67,7 @@ void AEnemyCharacter::takeDamage(int damage)
 {
 	health -= damage;
 	
-	GetCapsuleComponent()-> SetWorldLocation(GetTargetLocation()  + GetActorForwardVector()*-100);
+	GetCapsuleComponent()-> SetWorldLocation(GetTargetLocation()  + GetActorForwardVector()*-100, true);
 
 
 

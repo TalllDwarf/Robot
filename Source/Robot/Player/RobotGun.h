@@ -23,21 +23,40 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Health)
 	void Cooldown(float DeltaTime);
 
+	//initiate on begin play
+	virtual void BeginPlay() override;
+
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
 protected:
 
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 
 private:
 
-	//The timeline to rotate the gun when it is disabled
-	UTimelineComponent* gunDisabledTimeLine;
+	//The current position of the gun
+	//0 = faced up and ready 1 = down and damaged
+	float damagedAnimationAlpha;
 
-	//animation alpha curve
-	UCurveFloat* floatCurve;
+	//update the rotation to the rotation of the spring arm
+	UFUNCTION(BlueprintCallable)
+	void updateRotation();
 
-	//Timeline tick call
-	void gunActiveTimelineCallback(float value);
+	//
+	//Gun kick back
+	//
+
+	//The amount the gun can kickback
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAccess = "true"))
+		float kickbackAmount;
+
+	//Called when shooting to add kickback the gun
+	UFUNCTION(BlueprintCallable, Category = Mesh)
+		void Kickback();
+
+	//
+	//Heat
+	//
 
 	//is the gun currently overheated
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Heat, meta = (AllowPrivateAccess = "true"))
@@ -63,30 +82,22 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Heat, meta = (AllowPrivateAccess = "true"))
 		float heatRegenTime;
 	
-	//If the part has been fully damaged or heated they are no longer active
-	UFUNCTION(BlueprintCallable, Category = Health)
-		virtual bool isActive() override;
-
 	UFUNCTION(BlueprintCallable, Category = Heat)
 		void AddHeat(float heat);
+
+	//
+	//End Heat
+	//
+
+	//If the part has been fully damaged or heated they are no longer active
+	UFUNCTION(BlueprintCallable, Category = Health)
+		virtual bool isActive() override;	
 	
 	//Is the gun overheating
 	virtual void IsOverheating(bool overheating);
 
-	//Override set damage of robot part
-	// used to start gun animations
-	virtual void setDamaged(bool isDamaged) override;
-
-
-
-	//Rotation of the guns when attacking
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GunRotation, meta = (AllowPrivateAccess = "true"))
-		FQuat attackRotation;
-
-	//The time it takes to regen heat
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GunRotation, meta = (AllowPrivateAccess = "true"))
-		FQuat damagedRotation;
-
+	//Spring arm of the camera
 	USpringArmComponent* mainSpringArm;
+	
 	
 };

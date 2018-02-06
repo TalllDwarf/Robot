@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "RobotGun.h"
+#include "Player/PlayerRobot.h"
+#include "Engine.h"
 #include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
 
 ARobotGun::ARobotGun(const FObjectInitializer & ObjectInitializer) : Super(ObjectInitializer)
@@ -8,14 +10,11 @@ ARobotGun::ARobotGun(const FObjectInitializer & ObjectInitializer) : Super(Objec
 	overheated = false;
 	partHeat = 0.0f;
 	overheatMultiplier = 3.0f;
-	heatRegenAmount = 2.0f;
-	heatRegenTime = 0.6f;
+	heatRegenAmount = 0.4f;
+	heatRegenTime = 0.2f;	
 
-	/*const ConstructorHelpers::FObjectFinder<UCurveFloat> curve(TEXT("/Game/Test/GunActiveAnimationCurve"));
-	check(curve.Succeeded());
+	damagedAnimationAlpha = 0.0f;
 
-	floatCurve = curve.Object;
-	gunDisabledTimeLine = CreateDefaultSubobject<UTimelineComponent>(TEXT("GunActiveAnitmaionTimeline"));*/
 }
 
 //Cools the gun a little every tick
@@ -33,29 +32,52 @@ void ARobotGun::Cooldown(float DeltaTime)
 			partHeat = FMath::Clamp((partHeat - (heatRegenAmount * DeltaTime)), 0.0f, 100.0f);
 		}
 
-			if (partHeat == 0.0f)
-			{
-				overheated = false;
-				//gunDisabledTimeLine->Reverse();
-			}
+		if (partHeat == 0.0f)
+		{
+			IsOverheating(false);
+		}
 	}
 }
 
+//Gets all the components 
 void ARobotGun::BeginPlay()
 {
 	Super::BeginPlay();
-	/*mainSpringArm = mainBody->FindComponentByClass(TSubclassOf<USpringArmComponent>);
 
-	FOnTimelineFloat callback{};
-	callback.BindUFunction(this, FName{ TEXT("gunActiveTimelineCallback") });
-
-	//Add the float curve to the timeline and connect to the timelines interpolation
-	gunDisabledTimeLine->AddInterpFloat(floatCurve, callback, FName{ TEXT("gunActiveAnimation") });*/
+	mainSpringArm = Cast<USpringArmComponent>(mainBody->GetComponentByClass(USpringArmComponent::StaticClass()));
 }
 
-void ARobotGun::gunActiveTimelineCallback(float value)
+//Used for the timeline tick
+void ARobotGun::Tick(float DeltaTime)
 {
-	
+	Super::Tick(DeltaTime);
+
+	Cooldown(DeltaTime);
+
+	//damage animation
+	if (isActive() && damagedAnimationAlpha != 0.0f)
+	{
+		damagedAnimationAlpha = FMath::Clamp((damagedAnimationAlpha - (DeltaTime * 2)), 0.0f, 1.0f);
+	}
+	else if (!isActive() && damagedAnimationAlpha != 1.0f)
+	{
+		damagedAnimationAlpha = FMath::Clamp((damagedAnimationAlpha + (DeltaTime * 2)), 0.0f, 1.0f);
+	}
+
+	updateRotation();
+}
+
+
+//Updates the guns rotation to look forward 
+void ARobotGun::updateRotation()
+{	
+	FRotator rotation = GetActorRotation();
+	rotation.Pitch = FMath::Lerp(mainSpringArm->GetComponentRotation().Pitch, -80.0f, damagedAnimationAlpha);
+	SetActorRotation(rotation);
+}
+
+void ARobotGun::Kickback()
+{
 }
 
 //Checks if the gun can be used
@@ -80,26 +102,4 @@ void ARobotGun::AddHeat(float heat)
 void ARobotGun::IsOverheating(bool overheating)
 {
 	overheated = overheating;
-	/*if (overheating)
-	{
-		gunDisabledTimeLine->Play();
-	}
-	else
-	{
-		gunDisabledTimeLine->Reverse();
-	}*/
-}
-
-void ARobotGun::setDamaged(bool isDamaged)
-{
-	Super::setDamaged(isDamaged);
-
-	/*if (isDamaged)
-	{
-		gunDisabledTimeLine->Play();
-	}
-	else
-	{
-		gunDisabledTimeLine->Reverse();
-	}*/
 }

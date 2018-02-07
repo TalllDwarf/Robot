@@ -49,7 +49,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	int health;
 	
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 		void explode();
 
 	UFUNCTION(BlueprintNativeEvent)

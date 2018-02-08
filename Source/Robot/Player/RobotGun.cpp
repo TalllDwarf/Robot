@@ -76,6 +76,7 @@ void ARobotGun::updateRotation()
 	SetActorRotation(rotation);
 }
 
+//Adds a small amount of kickback to the gun when shooting
 void ARobotGun::Kickback()
 {
 }

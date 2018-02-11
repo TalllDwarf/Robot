@@ -55,7 +55,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 		void ragdoll();
 
-	
+
 
 
 

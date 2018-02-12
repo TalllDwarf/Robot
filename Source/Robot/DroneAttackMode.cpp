@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "MyBTTask_MoveToFront.h"
+#include "DroneAttackMode.h"
 #include "BTS_CheckForPlayer.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
@@ -12,30 +12,16 @@
 #include "GameplayTasks.h"
 #include "Robot.h"
 #include "Player/PlayerRobot.h"
+#include "Runtime/Core/Public/Math/UnrealMathUtility.h "
 
-EBTNodeResult::Type UMyBTTask_MoveToFront::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8*NodeMemory)
+EBTNodeResult::Type UDroneAttackMode::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
 {
-	
+
 	AEnemyAI *CharPC = Cast<AEnemyAI>(OwnerComp.GetAIOwner());
-
 	APlayerRobot *Enemy = Cast<APlayerRobot>(OwnerComp.GetBlackboardComponent()->GetValue<UBlackboardKeyType_Object>(CharPC->EnemykeyID));
-	if (Enemy)
-	{
-		//CharPC->MoveToActor(Enemy, 0.0f, true, true, false, 0, true);
-		FVector enemyLocation = Enemy->GetTargetLocation() +(Enemy->GetActorForwardVector()*1500);
+	const FVector EnemyLocation = Enemy->GetTargetLocation();
 
-		CharPC->MoveToLocation(enemyLocation, 0.0f, true, true, false,false, 0, true);
+	CharPC->MoveToLocation(FVector(FMath::RandRange(8500, -8500), FMath::RandRange(8500, -8500), 2000));
 		
-			
-		
-		return EBTNodeResult::Succeeded;
-	}
-	else
-	{
-		return EBTNodeResult::Failed;
-	}
-
-	
+	return EBTNodeResult::Type();
 }
-
-

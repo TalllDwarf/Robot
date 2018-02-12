@@ -25,7 +25,7 @@ class ROBOT_API APlayerRobot : public ACharacter
 
 	//Leg we have connected
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAccess = "true"))
-		class ARobotPart* legActor;
+		class ARobotLegPart* legActor;
 
 public:
 	// Sets default values for this character's properties
@@ -34,6 +34,11 @@ public:
 	//Turn rate deg/sec
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh)
 		float turnRate;
+
+	//Stop the player from being able to strafe
+	UFUNCTION(BlueprintCallable, Category = Movement)
+		bool canStrafe();
+
 
 	//Health of the robot
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Health)
@@ -47,8 +52,29 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Health)
 		void damage(float damage);
 
+	//Heals the player
 	UFUNCTION(BlueprintCallable, Category = Health)
 		void heal(float healthAmount);
+
+	//amount of health the parts will regen
+	UPROPERTY(EditDefaultsOnly, Category = Health, meta = (AllowPrivateAccess = "true"))
+		float healthRegenAmount;
+
+	//The time it takes to regen health
+	UPROPERTY(EditDefaultsOnly, Category = Health, meta = (AllowPrivateAccess = "true"))
+		float healthRegenTime;
+
+	//adds time for the player to heal themselves
+	UFUNCTION(BlueprintCallable, Category = Health)
+		void addHealTime(float healTime);
+
+private:
+
+	//The amount of healing time the part has
+	float healingTime;
+
+	//Until next health regen
+	float healthRegenTimeLeft;
 
 protected:
 	// Called when the game starts or when spawned
@@ -61,6 +87,10 @@ protected:
 	void TurnAtRate(float rate);
 
 	void LookUpAtRate(float rate);
+
+	void GamepadForward(float rate);
+
+	void GamepadRight(float rate);
 
 public:
 	// Called every frame

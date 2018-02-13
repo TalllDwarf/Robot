@@ -12,6 +12,7 @@
 #include "Player/RobotGun.h"
 #include "Player/RobotLegPart.h"
 #include "RobotGameMode.h"
+#include "Engine.h"
 
 // Sets default values
 APlayerRobot::APlayerRobot()
@@ -228,11 +229,16 @@ void APlayerRobot::Tick(float DeltaTime)
 
 	if (healingTime > 0.0f)
 	{
+
+		healthRegenTimeLeft -= DeltaTime;
+
 		if (healthRegenTimeLeft <= 0.0f)
 		{
 			healthRegenTimeLeft = healthRegenTime;
 
 			heal(healthRegenAmount);
+
+			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Blue, "Healing");
 		}
 	}
 }

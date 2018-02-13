@@ -32,22 +32,8 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = Health, meta = (AllowPrivateAccess = "true"))
 		float partHealth;
 
-	//amount of health the parts will regen
-	UPROPERTY(EditDefaultsOnly, Category = Health, meta = (AllowPrivateAccess = "true"))
-		float healthRegenAmount;
-
-	//The time it takes to regen health
-	UPROPERTY(EditDefaultsOnly, Category = Health, meta = (AllowPrivateAccess = "true"))
-		float healthRegenTime;
-
 	UPROPERTY(EditDefaultsOnly, Category = Health, meta = (AllowPrivateAccess = "true"))
 		float healingMultiplier;
-
-	//The amount of healing time the part has
-	float healingTime;
-
-	//Until next health regen
-	float healthRegenTimeLeft;
 
 	//Is the part to damaged to work
 	bool damaged;
@@ -79,13 +65,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Health)
 		void addHealth(float healthAmount);
 
-	UFUNCTION(BlueprintCallable, Category = Health)
-		void addHealTime(float Time);
-
 	//If the part has been fully damaged or heated they are no longer active
 	UFUNCTION(BlueprintCallable, Category = Health)
 		virtual bool isActive();
-
-	UFUNCTION(BlueprintCallable, Category = Health)
-	void Heal(float DeltaTime);	
 };

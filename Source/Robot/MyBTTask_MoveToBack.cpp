@@ -23,7 +23,8 @@ EBTNodeResult::Type UMyBTTask_MoveToBack::ExecuteTask(UBehaviorTreeComponent& Ow
 	{
 		//CharPC->MoveToActor(Enemy, 0.0f, true, true, false, 0, true);
 		FVector enemyLocation = Enemy->GetTargetLocation() + (Enemy->GetActorForwardVector() * -1500);
-		CharPC->MoveToLocation(enemyLocation);
+		CharPC->MoveToLocation(enemyLocation, 0.0f, true, true, false, false, 0, true);
+		
 		return EBTNodeResult::Succeeded;
 	}
 	else

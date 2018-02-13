@@ -75,6 +75,7 @@ void AEnemyCharacter::takeDamage(int damage)
 	{
 		ARobotGameMode* gm = (ARobotGameMode*)GetWorld()->GetAuthGameMode();
 		gm->killedEnemy();
+		
 		explode();
 		
 	}

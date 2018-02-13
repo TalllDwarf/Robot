@@ -25,6 +25,7 @@ public:
 	virtual void Possess(APawn * InPawn) override;
 
 	uint8 EnemykeyID;
-		
+	
+	FVector moveToPos = FVector(FMath::RandRange(-8000, 8000), FMath::RandRange(-8000, 8000), 2000);
 	
 };

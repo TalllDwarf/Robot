@@ -88,6 +88,7 @@ void APlayerRobot::heal(float healthAmount)
 	}
 }
 
+//Adds time for the player to heal
 void APlayerRobot::addHealTime(float healTime)
 {
 	healingTime += healTime;
@@ -152,9 +153,8 @@ void APlayerRobot::TurnAtRate(float rate)
 	if (legActor)
 	{
 		if (legActor->canLegsRotate())
-		{	
-			FRotator invert(0, -(rate * turnRate * GetWorld()->GetDeltaSeconds()), 0);
-			legActor->AddActorLocalRotation(invert);
+		{
+			legActor->MoveRight(-(rate * turnRate * GetWorld()->GetDeltaSeconds()));
 		}
 	}
 }
@@ -167,7 +167,7 @@ void APlayerRobot::LookUpAtRate(float rate)
 
 void APlayerRobot::GamepadForward(float value)
 {
-	if ((Controller != NULL) && (value != 0.0f) && canStrafe())
+	if ((Controller != NULL) && (value != 0.0f) && !legActor->canLegsRotate())
 	{
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();

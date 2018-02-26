@@ -29,11 +29,26 @@ class ROBOT_API ARobotLegPart : public ARobotPart
 	//Should we ignore gamepad input
 	bool ignoreGamepad;
 
+	//Gets the body start rotation so we can make our legs seperate
+	FRotator startRotation;	
+
+	//The speed the wheels should be turning, - meaning they are turning backwards
+	bool wheelsTurning;
+
+	//are we currently rotating;
+	bool wheelsRotating;
+
 public:
 	ARobotLegPart(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 	
+	UFUNCTION(BlueprintPure)
+		bool ShouldWheelsSpin();
+
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
 	//Ticks each frame
-	void Tick(float DeltaTime) override;
+	virtual void Tick(float DeltaTime) override;
 
 	//returns if the legs can strafe or not
 	bool canLegStrafe() { return canStrafe; }
@@ -42,6 +57,10 @@ public:
 	bool canLegsRotate() { return selfRotate; }
 
 	virtual void MoveRight(float value);
+
+	void ReverseParentRotation();
+
+	void IsMoving(bool isThePlayerMoving) { wheelsTurning = isThePlayerMoving; };
 
 	void updateGamepadMovement(float x, float y, FRotator forward);
 };

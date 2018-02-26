@@ -27,6 +27,8 @@ class ROBOT_API APlayerRobot : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAccess = "true"))
 		class ARobotLegPart* legActor;
 
+
+
 public:
 	// Sets default values for this character's properties
 	APlayerRobot();

@@ -1,7 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #include "RobotLegPart.h"
-
 #include "Engine.h"
 
 ARobotLegPart::ARobotLegPart(const FObjectInitializer& ObjectInitializer)
@@ -10,7 +7,20 @@ ARobotLegPart::ARobotLegPart(const FObjectInitializer& ObjectInitializer)
 	selfRotate = false;
 	ignoreGamepad = false;
 
-	turnSpeed = 1.0f;
+	turnSpeed = 1.5f;	
+
+	wheelsTurning = false;
+}
+
+bool ARobotLegPart::ShouldWheelsSpin()
+{
+	return (wheelsTurning || wheelsRotating);
+}
+
+void ARobotLegPart::BeginPlay()
+{
+	Super::BeginPlay();
+	startRotation = mainBody->GetActorRotation();
 }
 
 void ARobotLegPart::Tick(float DeltaTime)
@@ -21,8 +31,19 @@ void ARobotLegPart::Tick(float DeltaTime)
 void ARobotLegPart::MoveRight(float value)
 {
 	FRotator rotation(0, turnSpeed * value, 0);
+	SetActorRotation(GetActorRotation() + rotation);
 
-	AddActorLocalRotation(rotation);
+	if (value == 0)
+	{
+		wheelsRotating = false;
+	}
+	else wheelsRotating = true;
+}
+
+void ARobotLegPart::ReverseParentRotation()
+{
+	SetActorRotation(GetActorRotation() - (mainBody->GetActorRotation() - startRotation));
+	startRotation = mainBody->GetActorRotation();
 }
 
 //Updates the movement from a gamepad
@@ -32,11 +53,23 @@ void ARobotLegPart::updateGamepadMovement(float x, float y, FRotator forward)
 	{
 		ignoreGamepad = true;
 	}
-	else ignoreGamepad = false;
+	else
+	{
+		ignoreGamepad = false;
+	}
 
 	if (!ignoreGamepad)
 	{
 		FVector aimToLocation(x, y, 0);
-		SetActorRotation(forward + aimToLocation.Rotation());
+		aimToLocation.Normalize();
+		FRotator rotation = aimToLocation.Rotation();
+		SetActorRotation(forward + rotation);
+
+		if (rotation.Yaw != 0)
+		{
+			wheelsRotating = true;
+		}
+		else wheelsRotating = false;
+
 	}
 }

@@ -16,12 +16,13 @@
 EBTNodeResult::Type UMyBTTask_MoveToDrone::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
 {
 	AEnemyAI *CharPC = Cast<AEnemyAI>(OwnerComp.GetAIOwner());
-
+	float floatx = FMath::RandRange(-700, 700);
+	float floaty = FMath::RandRange(-700, 700);
 	APlayerRobot *Enemy = Cast<APlayerRobot>(OwnerComp.GetBlackboardComponent()->GetValue<UBlackboardKeyType_Object>(CharPC->EnemykeyID));
 	if (Enemy)
 	{
 		//CharPC->MoveToActor(Enemy, 0.0f, true, true, false, 0, true);
-		FVector enemyLocation = Enemy->GetTargetLocation() + Enemy->GetActorUpVector() * 1000;
+		FVector enemyLocation = FVector(Enemy->GetTargetLocation().X + floatx, Enemy->GetTargetLocation().Y + floaty, FMath::RandRange(1000, 3000));
 
 		CharPC->MoveToLocation(enemyLocation, 0.0f, true, false, false, true, 0, true);
 

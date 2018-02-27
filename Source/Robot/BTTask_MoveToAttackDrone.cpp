@@ -20,21 +20,12 @@ EBTNodeResult::Type UBTTask_MoveToAttackDrone::ExecuteTask(UBehaviorTreeComponen
 		AEnemyAI *CharPC = Cast<AEnemyAI>(OwnerComp.GetAIOwner());
 		APlayerRobot *Enemy = Cast<APlayerRobot>(OwnerComp.GetBlackboardComponent()->GetValue<UBlackboardKeyType_Object>(CharPC->EnemykeyID));
 		
-<<<<<<< HEAD
 		float floatx = FMath::RandRange(-700, 700);
 		float floaty = FMath::RandRange(-700, 700);
 		
 		if (FVector::Distance(CharPC->moveToPos, CharPC->GetTargetLocation()) < 1000)
 		{
 			CharPC->moveToPos = FVector(Enemy->GetTargetLocation().X + floatx, Enemy->GetTargetLocation().Y + floaty, 2000);
-=======
-		float floatx = FMath::RandRange(-7000, 7000);
-		float floaty = FMath::RandRange(-7000, 7000);
-		
-		if (FVector::Distance(CharPC->moveToPos, CharPC->GetTargetLocation()) < 1000)
-		{
-			CharPC->moveToPos = FVector(floatx, floaty, 2000);
->>>>>>> Mark
 		}
 		if (Enemy)
 		{

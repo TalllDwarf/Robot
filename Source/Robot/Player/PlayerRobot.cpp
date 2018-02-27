@@ -89,6 +89,7 @@ void APlayerRobot::heal(float healthAmount)
 	}
 }
 
+//Adds time for the player to heal
 void APlayerRobot::addHealTime(float healTime)
 {
 	healingTime += healTime;
@@ -123,6 +124,12 @@ void APlayerRobot::MoveForward(float value)
 			AddMovementInput(Direction, value);
 		}
 	}
+	
+	if (legActor)
+	{
+		//Are we currently moving
+		legActor->IsMoving(value != 0);
+	}
 }
 
 void APlayerRobot::MoveRight(float value)
@@ -146,17 +153,14 @@ void APlayerRobot::MoveRight(float value)
 
 void APlayerRobot::TurnAtRate(float rate)
 {
+	float movement = rate * turnRate * GetWorld()->GetDeltaSeconds();
 	// calculate delta for this frame from the rate information
-	AddControllerYawInput(rate * turnRate * GetWorld()->GetDeltaSeconds());
+	AddControllerYawInput(movement);
 
 	//Dont rotate the legs if the legs are rotating alone
 	if (legActor)
 	{
-		if (legActor->canLegsRotate())
-		{	
-			FRotator invert(0, -(rate * turnRate * GetWorld()->GetDeltaSeconds()), 0);
-			legActor->AddActorLocalRotation(invert);
-		}
+		legActor->ReverseParentRotation();
 	}
 }
 
@@ -168,7 +172,7 @@ void APlayerRobot::LookUpAtRate(float rate)
 
 void APlayerRobot::GamepadForward(float value)
 {
-	if ((Controller != NULL) && (value != 0.0f) && canStrafe())
+	if ((Controller != NULL) && (value != 0.0f) && !legActor->canLegsRotate())
 	{
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
@@ -229,7 +233,10 @@ void APlayerRobot::Tick(float DeltaTime)
 
 	if (healingTime > 0.0f)
 	{
+<<<<<<< HEAD
 
+=======
+>>>>>>> Mark
 		healthRegenTimeLeft -= DeltaTime;
 
 		if (healthRegenTimeLeft <= 0.0f)
@@ -240,6 +247,7 @@ void APlayerRobot::Tick(float DeltaTime)
 
 			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Blue, "Healing");
 		}
+		healingTime -= DeltaTime;
 	}
 }
 
@@ -257,7 +265,8 @@ void APlayerRobot::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
 	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
-	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
+	//PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
+	PlayerInputComponent->BindAxis("Turn", this, &APlayerRobot::TurnAtRate);
 	PlayerInputComponent->BindAxis("TurnRate", this, &APlayerRobot::TurnAtRate);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &APlayerRobot::LookUpAtRate);

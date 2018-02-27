@@ -233,10 +233,6 @@ void APlayerRobot::Tick(float DeltaTime)
 
 	if (healingTime > 0.0f)
 	{
-<<<<<<< HEAD
-
-=======
->>>>>>> Mark
 		healthRegenTimeLeft -= DeltaTime;
 
 		if (healthRegenTimeLeft <= 0.0f)

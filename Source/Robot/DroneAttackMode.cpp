@@ -16,12 +16,30 @@
 
 EBTNodeResult::Type UDroneAttackMode::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
 {
-
 	AEnemyAI *CharPC = Cast<AEnemyAI>(OwnerComp.GetAIOwner());
 	APlayerRobot *Enemy = Cast<APlayerRobot>(OwnerComp.GetBlackboardComponent()->GetValue<UBlackboardKeyType_Object>(CharPC->EnemykeyID));
-	const FVector EnemyLocation = Enemy->GetTargetLocation();
 
-	CharPC->MoveToLocation(FVector(FMath::RandRange(8500, -8500), FMath::RandRange(8500, -8500), 2000));
-		
-	return EBTNodeResult::Type();
+	float floatx = FMath::RandRange(-700, 700);
+	float floaty = FMath::RandRange(-700, 700);
+	float floatz = FMath::RandRange(1000, 2500);
+
+
+
+
+	if (Enemy)
+	{
+		FVector EnemyLocation = Enemy->GetTargetLocation();
+		CharPC->moveToPos = FVector(Enemy->GetTargetLocation().X + floatx, Enemy->GetTargetLocation().Y + floaty, Enemy->GetTargetLocation().Z + floatz);
+		CharPC->MoveToLocation(CharPC->moveToPos, 100.0f, true, false, false, true, 0, true);
+
+
+		return EBTNodeResult::Succeeded;
+	}
+	else
+	{
+		return EBTNodeResult::Failed;
+	}
+
+
+
 }

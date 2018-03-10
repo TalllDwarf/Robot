@@ -50,7 +50,7 @@ public:
 	int health;
 	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-		void explode();
+		void die();
 
 	UFUNCTION(BlueprintNativeEvent)
 		void ragdoll();

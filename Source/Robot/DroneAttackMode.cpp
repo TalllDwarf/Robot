@@ -19,21 +19,19 @@ EBTNodeResult::Type UDroneAttackMode::ExecuteTask(UBehaviorTreeComponent & Owner
 	AEnemyAI *CharPC = Cast<AEnemyAI>(OwnerComp.GetAIOwner());
 	APlayerRobot *Enemy = Cast<APlayerRobot>(OwnerComp.GetBlackboardComponent()->GetValue<UBlackboardKeyType_Object>(CharPC->EnemykeyID));
 
-	float floatx = FMath::RandRange(-700, 700);
-	float floaty = FMath::RandRange(-700, 700);
-	float floatz = FMath::RandRange(1000, 2500);
-
-
-
+	float floatx = FMath::RandRange(-2000, 2000);
+	float floaty = FMath::RandRange(-2000, 2000);
+	float floatz = FMath::RandRange(1000, 2000);
 
 	if (Enemy)
 	{
 		FVector EnemyLocation = Enemy->GetTargetLocation();
+
 		CharPC->moveToPos = FVector(Enemy->GetTargetLocation().X + floatx, Enemy->GetTargetLocation().Y + floaty, Enemy->GetTargetLocation().Z + floatz);
 		CharPC->MoveToLocation(CharPC->moveToPos, 100.0f, true, false, false, true, 0, true);
 
-
 		return EBTNodeResult::Succeeded;
+
 	}
 	else
 	{

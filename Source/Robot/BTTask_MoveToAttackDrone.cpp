@@ -16,28 +16,61 @@
 EBTNodeResult::Type UBTTask_MoveToAttackDrone::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
 {
 
+	AEnemyAI *CharPC = Cast<AEnemyAI>(OwnerComp.GetAIOwner());
 
-		AEnemyAI *CharPC = Cast<AEnemyAI>(OwnerComp.GetAIOwner());
-		APlayerRobot *Enemy = Cast<APlayerRobot>(OwnerComp.GetBlackboardComponent()->GetValue<UBlackboardKeyType_Object>(CharPC->EnemykeyID));
-		
-		float floatx = FMath::RandRange(-700, 700);
-		float floaty = FMath::RandRange(-700, 700);
-		float floatz = FMath::RandRange(1000, 2500);
-		
-		if (Enemy)
+	APlayerRobot *Enemy = Cast<APlayerRobot>(OwnerComp.GetBlackboardComponent()->GetValue<UBlackboardKeyType_Object>(CharPC->EnemykeyID));
+
+
+
+	float floatx = FMath::RandRange(-2000, 2000);
+
+	float floaty = FMath::RandRange(-2000, 2000);
+
+
+
+	
+
+	
+
+	if (Enemy)
+
+	{
+
+		FVector EnemyLocation = Enemy->GetTargetLocation();
+
+		//CharPC->moveToPos = FVector(floatx, floaty, 2000);
+		CharPC->moveToPos = FVector(Enemy->GetTargetLocation().X + floatx, Enemy->GetTargetLocation().Y + floaty, 1200);
+
+		CharPC->MoveToLocation(CharPC->moveToPos, 100.0f, true, false, false, true, 0, true);
+
+
+
+		if (FVector::Distance(CharPC->moveToPos, CharPC->GetTargetLocation()) < 4000)
+
 		{
-			FVector EnemyLocation = Enemy->GetTargetLocation();
-
-			CharPC->moveToPos = FVector(Enemy->GetTargetLocation().X + floatx, Enemy->GetTargetLocation().Y + floaty, Enemy->GetTargetLocation().Z + floatz);
-			CharPC->MoveToLocation(CharPC->moveToPos, 100.0f, true, false, false, true, 0, true);
 
 			return EBTNodeResult::Succeeded;
 
 		}
+
 		else
+
 		{
-			return EBTNodeResult::Failed;
+
+			return EBTNodeResult::InProgress;
+
 		}
+
+
+	}
+
+	else
+
+	{
+
+		return EBTNodeResult::Failed;
+
+	}
 	
 	
 

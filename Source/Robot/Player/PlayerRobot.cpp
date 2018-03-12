@@ -56,10 +56,10 @@ bool APlayerRobot::canStrafe()
 void APlayerRobot::damage(float damage)
 {
 	healthRemaining = FMath::Clamp((healthRemaining - damage), 0.0f, totalHealth);
-	if (healthRemaining == 0.0f)
+	if (healthRemaining <= 0.0f)
 	{
 		ARobotGameMode* gm = (ARobotGameMode*)GetWorld()->GetAuthGameMode();
-		gm->changeState(-1);
+		gm->changeState(1); //Lose state is 1
 	}
 }
 

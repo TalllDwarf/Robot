@@ -22,6 +22,10 @@ class ROBOT_API ARobotLegPart : public ARobotPart
 	UPROPERTY(EditDefaultsOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 		bool selfRotate;
 
+	//Do the legs rotate seporatly from the body
+	UPROPERTY(EditDefaultsOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+		bool legIsGyro;
+
 	//The speed the legs rotate
 	UPROPERTY(EditDefaultsOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 		float turnSpeed;
@@ -43,6 +47,16 @@ public:
 	
 	UFUNCTION(BlueprintPure)
 		bool ShouldWheelsSpin();
+
+	UFUNCTION(BlueprintNativeEvent)
+		void rightAxis(float value);
+	virtual void rightAxis_Implementation(float value);
+
+	UFUNCTION(BlueprintNativeEvent)
+		void forwardAxis(float value);
+	virtual void forwardAxis_Implementation(float value);
+
+	bool isLegAGyro() { return legIsGyro; }
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

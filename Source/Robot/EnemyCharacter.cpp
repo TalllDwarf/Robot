@@ -65,13 +65,15 @@ void AEnemyCharacter::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActo
 
 void AEnemyCharacter::takeDamage(int damage)
 {
+
+	bool alreadyDead = health <= 0;
 	health -= damage;
 	
 	GetCapsuleComponent()-> SetWorldLocation(GetTargetLocation()  + GetActorForwardVector()*-100, true);
 
 
 
-	if (health <= 0)
+	if (health <= 0 && !alreadyDead)
 	{
 		ARobotGameMode* gm = (ARobotGameMode*)GetWorld()->GetAuthGameMode();
 		gm->killedEnemy();

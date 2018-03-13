@@ -44,7 +44,15 @@ class ROBOT_API ARobotLegPart : public ARobotPart
 
 public:
 	ARobotLegPart(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
+	//The speed the player moves when shooting
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
+		float walkLegSpeed;
 	
+	//The speed the player moves when they are not shooting
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
+		float runLegSpeed;
+
 	UFUNCTION(BlueprintPure)
 		bool ShouldWheelsSpin();
 

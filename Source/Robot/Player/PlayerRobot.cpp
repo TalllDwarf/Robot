@@ -56,10 +56,10 @@ bool APlayerRobot::canStrafe()
 void APlayerRobot::damage(float damage)
 {
 	healthRemaining = FMath::Clamp((healthRemaining - damage), 0.0f, totalHealth);
-	if (healthRemaining <= 0.0f)
+	if (healthRemaining == 0.0f)
 	{
 		ARobotGameMode* gm = (ARobotGameMode*)GetWorld()->GetAuthGameMode();
-		gm->changeState(1); //Lose state is 1
+		gm->changeState(-1);
 	}
 }
 
@@ -122,11 +122,6 @@ void APlayerRobot::MoveForward(float value)
 			// get forward vector
 			const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 			AddMovementInput(Direction, value);
-
-			if (legActor->isLegAGyro())
-			{
-				legActor->forwardAxis(value);
-			}
 		}
 	}
 	
@@ -139,31 +134,20 @@ void APlayerRobot::MoveForward(float value)
 
 void APlayerRobot::MoveRight(float value)
 {
-	if (value != 0.0f)
+	if ((Controller != NULL) && (value != 0.0f) && canStrafe())
 	{
-		if ((Controller != NULL) && canStrafe())
-		{
-			// find out which way is right
-			const FRotator Rotation = Controller->GetControlRotation();
-			const FRotator YawRotation(0, Rotation.Yaw, 0);
+		// find out which way is right
+		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-			// get right vector 
-			const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-			// add movement in that direction
-			AddMovementInput(Direction, value);
-
-			if (legActor->isLegAGyro())
-			{
-				legActor->rightAxis(value);
-			}
-		}
-		else if (legActor)
-		{
-			if (legActor->canLegsRotate())
-			{
-				legActor->MoveRight(value);
-			}
-		}
+		// get right vector 
+		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+		// add movement in that direction
+		AddMovementInput(Direction, value);
+	}
+	else if (legActor)
+	{
+		legActor->MoveRight(value);
 	}
 }
 
@@ -176,8 +160,7 @@ void APlayerRobot::TurnAtRate(float rate)
 	//Dont rotate the legs if the legs are rotating alone
 	if (legActor)
 	{
-		if(legActor->canLegsRotate())
-			legActor->ReverseParentRotation();
+		legActor->ReverseParentRotation();
 	}
 }
 

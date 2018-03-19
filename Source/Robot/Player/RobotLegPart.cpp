@@ -17,14 +17,6 @@ bool ARobotLegPart::ShouldWheelsSpin()
 	return (wheelsTurning || wheelsRotating);
 }
 
-void ARobotLegPart::rightAxis_Implementation(float value)
-{
-}
-
-void ARobotLegPart::forwardAxis_Implementation(float value)
-{
-}
-
 void ARobotLegPart::BeginPlay()
 {
 	Super::BeginPlay();

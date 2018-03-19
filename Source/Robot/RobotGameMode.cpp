@@ -36,8 +36,7 @@ void ARobotGameMode::changeState(int newState)
 }
 
 void ARobotGameMode::killedEnemy()
-{
-	
+{	
 	killCount++;
 	if (killCount >= 25)
 	{

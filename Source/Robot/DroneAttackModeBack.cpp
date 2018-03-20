@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "DroneAttackMode.h"
+#include "DroneAttackModeBack.h"
 #include "BTS_CheckForPlayer.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
@@ -13,14 +13,13 @@
 #include "Robot.h"
 #include "Player/PlayerRobot.h"
 #include "Runtime/Core/Public/Math/UnrealMathUtility.h "
-
-EBTNodeResult::Type UDroneAttackMode::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
+EBTNodeResult::Type UDroneAttackModeBack::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
 {
 	AEnemyAI *CharPC = Cast<AEnemyAI>(OwnerComp.GetAIOwner());
 	APlayerRobot *Enemy = Cast<APlayerRobot>(OwnerComp.GetBlackboardComponent()->GetValue<UBlackboardKeyType_Object>(CharPC->EnemykeyID));
 
-	float floatx = FMath::RandRange(0, 3000);
-	float floaty = FMath::RandRange(0, 3000);
+	float floatx = FMath::RandRange(-3000,0);
+	float floaty = FMath::RandRange(-3000, 0);
 	float floatz = FMath::RandRange(1000, 2000);
 
 	if (Enemy)
@@ -37,7 +36,9 @@ EBTNodeResult::Type UDroneAttackMode::ExecuteTask(UBehaviorTreeComponent & Owner
 	{
 		return EBTNodeResult::Failed;
 	}
-
-
-
 }
+
+
+
+
+

@@ -2,6 +2,7 @@
 
 #include "RobotGameMode.h"
 #include "RobotCharacter.h"
+#include "SpawnActor.h"
 #include "UObject/ConstructorHelpers.h"
 #include "UnrealEngine.h"
 
@@ -9,18 +10,14 @@ ARobotGameMode::ARobotGameMode()
 {
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/Test/MyPlayerRobot"));
-	killCount = 0;
+
 	currentState = 2;
+	totalScore = 0;
+
 	if (PlayerPawnBPClass.Class != NULL)
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
-}
-
-int ARobotGameMode::getKills()
-{
-	return killCount;
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Gt Kills")));
 }
 
 int ARobotGameMode::getState()
@@ -35,13 +32,12 @@ void ARobotGameMode::changeState(int newState)
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Changed State")));
 }
 
-void ARobotGameMode::killedEnemy()
+void ARobotGameMode::AddScore(int score)
 {
-	
-	killCount++;
-	if (killCount >= 25)
-	{
-		currentState = 0;
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("State 2")));
-	}
+	totalScore += score;
+}
+
+int ARobotGameMode::GetScore()
+{
+	return totalScore;
 }

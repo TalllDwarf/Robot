@@ -78,6 +78,6 @@ void ARobotLegPart::updateGamepadMovement(float x, float y, FRotator forward)
 			wheelsRotating = true;
 		}
 		else wheelsRotating = false;
-
 	}
+
 }

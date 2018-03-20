@@ -35,7 +35,7 @@ AEnemyCharacter::AEnemyCharacter(const FObjectInitializer& ObjectInitializer)
 void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	gm = (ARobotGameMode*)GetWorld()->GetAuthGameMode();
 }
 
 // Called every frame
@@ -75,8 +75,8 @@ void AEnemyCharacter::takeDamage(int damage)
 
 	if (health <= 0 && !alreadyDead)
 	{
-		ARobotGameMode* gm = (ARobotGameMode*)GetWorld()->GetAuthGameMode();
 		gm->AddScore(100);
+		gm->KillEnemy();
 		
 		ragdoll();
 		

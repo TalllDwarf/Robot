@@ -56,7 +56,7 @@ public:
 		void ragdoll();
 
 
-
+	ARobotGameMode* gm;
 
 
 		

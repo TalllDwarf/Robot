@@ -13,6 +13,7 @@ ARobotGameMode::ARobotGameMode()
 
 	currentState = 2;
 	totalScore = 0;
+	numberOfEnemies = 0;
 
 	if (PlayerPawnBPClass.Class != NULL)
 	{
@@ -40,4 +41,20 @@ void ARobotGameMode::AddScore(int score)
 int ARobotGameMode::GetScore()
 {
 	return totalScore;
+}
+
+void ARobotGameMode::SetEnemies(int amountOfEnemies)
+{
+	numberOfEnemies = amountOfEnemies;
+}
+
+int ARobotGameMode::EnemiesLeft()
+{
+	return numberOfEnemies;
+}
+
+void ARobotGameMode::KillEnemy()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Enemy Killed")));
+	numberOfEnemies--;
 }

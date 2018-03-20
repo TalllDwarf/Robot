@@ -28,9 +28,20 @@ public:
 	UFUNCTION(BlueprintCallable)
 		int GetScore();
 
+	UFUNCTION(BlueprintCallable)
+		void SetEnemies(int amountOfEnemies);
+
+	UFUNCTION(BlueprintCallable)
+		int EnemiesLeft();
+
+	UFUNCTION(BlueprintCallable)
+		void KillEnemy();
+
 private:
 	int currentState;
 	int totalScore;
+
+	int numberOfEnemies;
 };
 
 

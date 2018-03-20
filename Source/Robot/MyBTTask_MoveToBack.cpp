@@ -21,9 +21,19 @@ EBTNodeResult::Type UMyBTTask_MoveToBack::ExecuteTask(UBehaviorTreeComponent& Ow
 	APlayerRobot *Enemy = Cast<APlayerRobot>(OwnerComp.GetBlackboardComponent()->GetValue<UBlackboardKeyType_Object>(CharPC->EnemykeyID));
 	if (Enemy)
 	{
+		
 		//CharPC->MoveToActor(Enemy, 0.0f, true, true, false, 0, true);
 		FVector enemyLocation = Enemy->GetTargetLocation() + (Enemy->GetActorForwardVector() * -1500);
-		CharPC->MoveToLocation(enemyLocation, 0.0f, true, true, false, false, 0, true);
+		if (CharPC->MoveToLocation(enemyLocation, 0.0f, true, true, false, true, 0, true))
+		{
+			CharPC->MoveToLocation(enemyLocation, 0.0f, true, true, false, true, 0, true);
+		}
+		else
+		{
+			APlayerRobot *Enemy = Cast<APlayerRobot>(OwnerComp.GetBlackboardComponent()->GetValue<UBlackboardKeyType_Object>(CharPC->EnemykeyID));
+			CharPC->MoveToActor(Enemy, 0.0f, true, true, false, 0, true);
+		}
+		
 		
 		return EBTNodeResult::Succeeded;
 	}

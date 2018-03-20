@@ -2,7 +2,9 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Engine.h"
+#include "WaveClass.h"
+#include "SpawnActor.h"
 #include "GameFramework/GameModeBase.h"
 #include "RobotGameMode.generated.h"
 
@@ -12,18 +14,23 @@ class ARobotGameMode : public AGameModeBase
 	GENERATED_BODY()
 
 public:
+
 	ARobotGameMode();
 	UFUNCTION(BlueprintCallable)
-		int getKills();
-	UFUNCTION(BlueprintCallable)
 		int getState();
+
 	UFUNCTION(BlueprintCallable)
 		void changeState(int newState);
+
 	UFUNCTION(BlueprintCallable)
-		void killedEnemy();
+		void AddScore(int score);
+
+	UFUNCTION(BlueprintCallable)
+		int GetScore();
+
 private:
 	int currentState;
-	int killCount;
+	int totalScore;
 };
 
 

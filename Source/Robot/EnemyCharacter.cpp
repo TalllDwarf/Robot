@@ -76,7 +76,7 @@ void AEnemyCharacter::takeDamage(int damage)
 	if (health <= 0 && !alreadyDead)
 	{
 		ARobotGameMode* gm = (ARobotGameMode*)GetWorld()->GetAuthGameMode();
-		gm->killedEnemy();
+		gm->AddScore(100);
 		
 		ragdoll();
 		

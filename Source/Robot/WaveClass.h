@@ -10,6 +10,7 @@
 class ROBOT_API WaveClass
 {
 public:
+	WaveClass();
 	WaveClass(int spawnSize);
 	~WaveClass();
 
@@ -21,9 +22,17 @@ public:
 
 	void UpdateMaxSpawnSize(int newSpawnSize);
 
-	int GetAmountLeftToSpawn(EnemyType enemy);
+	int GetAmountToSpawn(EnemyType enemy);
 
 	void Spawned(EnemyType enemy, BYTE numberSpawned);
+
+	bool HasEnemiesToSpawn();
+
+	bool HasNextWave();
+
+	void NextWave();
+
+	int GetSpawnSize();
 
 private:
 

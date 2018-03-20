@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "RobotGameMode.h"
 #include "EnemyCharacter.generated.h"
+
 
 
 UCLASS()

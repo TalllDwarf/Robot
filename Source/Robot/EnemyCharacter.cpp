@@ -5,7 +5,6 @@
 #include "RobotCharacter.h"
 #include "Player/PlayerRobot.h"
 #include "Player/RobotPart.h"
-#include "RobotGameMode.h"
 #include "BTTask_MoveToPlayer.h"
 #define COLLISION_ENEMY ECollisionChannel::ECC_GameTraceChannel2
 #define COLLISION_ALLY ECollisionChannel::ECC_GameTraceChannel3

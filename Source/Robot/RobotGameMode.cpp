@@ -50,11 +50,12 @@ void ARobotGameMode::SetEnemies(int amountOfEnemies)
 
 int ARobotGameMode::EnemiesLeft()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, FString::Printf(TEXT("Enemy:" + numberOfEnemies)));
 	return numberOfEnemies;
 }
 
 void ARobotGameMode::KillEnemy()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Enemy Killed")));
 	numberOfEnemies--;
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, FString::Printf(TEXT("Enemy Killed:" + numberOfEnemies)));
 }

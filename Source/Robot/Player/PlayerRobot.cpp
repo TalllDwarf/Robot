@@ -133,7 +133,7 @@ void APlayerRobot::MoveForward(float value)
 	if (legActor)
 	{
 		//Are we currently moving
-		legActor->IsMoving(value != 0);
+		legActor->IsMoving(value != 0.0f);
 	}
 }
 
@@ -164,6 +164,11 @@ void APlayerRobot::MoveRight(float value)
 				legActor->MoveRight(value);
 			}
 		}
+	}
+
+	if (legActor)
+	{
+		legActor->IsRotating(value != 0.0f);
 	}
 }
 

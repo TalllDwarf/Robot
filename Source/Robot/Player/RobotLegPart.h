@@ -38,6 +38,7 @@ class ROBOT_API ARobotLegPart : public ARobotPart
 
 	//The speed the wheels should be turning, - meaning they are turning backwards
 	bool wheelsTurning;
+	bool playerMoving;
 
 	//are we currently rotating;
 	bool wheelsRotating;
@@ -82,7 +83,9 @@ public:
 
 	void ReverseParentRotation();
 
-	void IsMoving(bool isThePlayerMoving) { wheelsTurning = isThePlayerMoving; };
+	void IsRotating(bool isThePlayerMoving) { wheelsTurning = isThePlayerMoving; };
+
+	void IsMoving(bool isThePlayerMoving) { playerMoving = isThePlayerMoving; };
 
 	void updateGamepadMovement(float x, float y, FRotator forward);
 };

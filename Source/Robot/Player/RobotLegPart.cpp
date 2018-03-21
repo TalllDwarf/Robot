@@ -14,7 +14,7 @@ ARobotLegPart::ARobotLegPart(const FObjectInitializer& ObjectInitializer)
 
 bool ARobotLegPart::ShouldWheelsSpin()
 {
-	return (wheelsTurning || wheelsRotating);
+	return (wheelsTurning || wheelsRotating || playerMoving);
 }
 
 void ARobotLegPart::rightAxis_Implementation(float value)
@@ -40,12 +40,6 @@ void ARobotLegPart::MoveRight(float value)
 {
 	FRotator rotation(0, turnSpeed * value, 0);
 	SetActorRotation(GetActorRotation() + rotation);
-
-	if (value == 0)
-	{
-		wheelsRotating = false;
-	}
-	else wheelsRotating = true;
 }
 
 void ARobotLegPart::ReverseParentRotation()
@@ -64,6 +58,7 @@ void ARobotLegPart::updateGamepadMovement(float x, float y, FRotator forward)
 	else
 	{
 		ignoreGamepad = false;
+
 	}
 
 	if (!ignoreGamepad)
@@ -71,9 +66,9 @@ void ARobotLegPart::updateGamepadMovement(float x, float y, FRotator forward)
 		FVector aimToLocation(x, y, 0);
 		aimToLocation.Normalize();
 		FRotator rotation = aimToLocation.Rotation();
-		SetActorRotation(forward + rotation);
+		SetActorRotation(forward + rotation);		
 
-		if (rotation.Yaw != 0)
+		if (x != 0 || y != 0)
 		{
 			wheelsRotating = true;
 		}

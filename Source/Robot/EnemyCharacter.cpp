@@ -24,8 +24,12 @@ AEnemyCharacter::AEnemyCharacter(const FObjectInitializer& ObjectInitializer)
 	CollisionComp->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 	CollisionComp->OnComponentBeginOverlap.AddDynamic(this, &AEnemyCharacter::OnOverlapBegin);
 	
-
-	
+	static ConstructorHelpers::FObjectFinder<USoundCue> playerHitCueOb
+	(
+		TEXT("'/Game/Sound/PlayerHit.PlayerHit'")
+	);
+	enemyHitCue = playerHitCueOb.Object;
+	enemyHitAudio = CreateDefaultSubobject<UAudioComponent>(TEXT("AudioComp"));
 
 	health = 10;
 }
@@ -40,6 +44,7 @@ void AEnemyCharacter::BeginPlay()
 // Called every frame
 void AEnemyCharacter::Tick(float DeltaTime)
 {
+	
 	Super::Tick(DeltaTime);
 
 }
@@ -67,10 +72,13 @@ void AEnemyCharacter::takeDamage(int damage)
 
 	bool alreadyDead = health <= 0;
 	health -= damage;
+	if (enemyHitCue->IsValidLowLevelFast())
+	{
+		enemyHitAudio->SetSound(enemyHitCue);
+	}
+	enemyHitAudio->Play();
 	
 	GetCapsuleComponent()-> SetWorldLocation(GetTargetLocation()  + GetActorForwardVector()*-100, true);
-
-
 
 	if (health <= 0 && !alreadyDead)
 	{

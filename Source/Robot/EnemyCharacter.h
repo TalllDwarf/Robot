@@ -6,6 +6,7 @@
 #include "RobotGameMode.h"
 #include "GameFramework/Character.h"
 #include "RobotGameMode.h"
+#include "SoundDefinitions.h" 
 #include "EnemyCharacter.generated.h"
 
 
@@ -61,6 +62,8 @@ public:
 
 	ARobotGameMode* gm;
 
+	USoundCue* enemyHitCue;
+	UAudioComponent * enemyHitAudio;
 
 		
 

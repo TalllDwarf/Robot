@@ -14,6 +14,7 @@
 #include "RobotGameMode.h"
 #include "Engine.h"
 
+
 // Sets default values
 APlayerRobot::APlayerRobot()
 {
@@ -39,6 +40,15 @@ APlayerRobot::APlayerRobot()
 
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+
+	static ConstructorHelpers::FObjectFinder<USoundCue> playerHitCueOb
+	(
+		TEXT("'/Game/Sound/PlayerHit.PlayerHit'")
+	);
+	playerHitCue = playerHitCueOb.Object;
+	playerHitAudio = CreateDefaultSubobject<UAudioComponent>(TEXT("AudioComp"));
+
 }
 
 //returns if the player can strafe
@@ -55,7 +65,14 @@ bool APlayerRobot::canStrafe()
 //Damages the player robot when health is 0 player dies
 void APlayerRobot::damage(float damage)
 {
+	if (playerHitCue->IsValidLowLevelFast())
+	{
+		playerHitAudio->SetSound(playerHitCue);
+	}
+	playerHitAudio->Play();
+
 	healthRemaining = FMath::Clamp((healthRemaining - damage), 0.0f, totalHealth);
+
 	if (healthRemaining <= 0.0f)
 	{
 		ARobotGameMode* gm = (ARobotGameMode*)GetWorld()->GetAuthGameMode();

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "SoundDefinitions.h" 
 #include "PlayerRobot.generated.h"
 
 UCLASS()
@@ -11,8 +12,8 @@ class ROBOT_API APlayerRobot : public ACharacter
 {
 	GENERATED_BODY()
 
-	//Head we have connected
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAccess = "true"))
+		//Head we have connected
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAccess = "true"))
 		class ARobotPart* headActor;
 
 	//Arm actors we have connected
@@ -70,6 +71,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Health)
 		void addHealTime(float healTime);
 
+	class USoundCue* playerHitCue;
+
+	class UAudioComponent* playerHitAudio;
+
+
+
 private:
 
 	//The amount of healing time the part has
@@ -100,4 +107,7 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	
+
 };

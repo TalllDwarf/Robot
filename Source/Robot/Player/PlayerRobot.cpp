@@ -280,7 +280,6 @@ void APlayerRobot::Tick(float DeltaTime)
 
 			heal(healthRegenAmount);
 
-			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Blue, "Healing");
 		}
 		healingTime -= DeltaTime;
 	}

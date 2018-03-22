@@ -24,13 +24,11 @@ ARobotGameMode::ARobotGameMode()
 int ARobotGameMode::getState()
 {
 	return currentState;
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Gt State")));
 }
 
 void ARobotGameMode::changeState(int newState)
 {
 	currentState = newState;
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Changed State")));
 }
 
 void ARobotGameMode::AddScore(int score)
@@ -50,12 +48,10 @@ void ARobotGameMode::SetEnemies(int amountOfEnemies)
 
 int ARobotGameMode::EnemiesLeft()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, FString::Printf(TEXT("Enemy:" + numberOfEnemies)));
 	return numberOfEnemies;
 }
 
 void ARobotGameMode::KillEnemy()
 {
 	numberOfEnemies--;
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, FString::Printf(TEXT("Enemy Killed:" + numberOfEnemies)));
 }
